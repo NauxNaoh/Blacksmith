@@ -13,7 +13,7 @@ namespace Naux.Joystick
         private RectTransform baseRect;
         private Vector2 directInput = Vector2.zero;
 
-        public Vector2 Direction => directInput;
+        internal Vector2 Direction => directInput;
 
         void Start()
         {
@@ -84,6 +84,8 @@ namespace Naux.Joystick
         public void OnPointerUp(PointerEventData eventData)
         {
             rectBackground.gameObject.SetActive(false);
+            directInput = Vector2.zero;
+            rectHandle.anchoredPosition = Vector2.zero;
         }
     }
 }
