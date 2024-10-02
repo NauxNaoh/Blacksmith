@@ -19,20 +19,29 @@ namespace Runtime
         void Update()
         {
             var _joystickDir = joystick.Direction;
-
             if (_joystickDir.magnitude > 0)
             {
                 destination.x = _joystickDir.x;
                 destination.z = _joystickDir.y;
-                actionHandle.ChangeCharacterAction(CharacterAction.Moving);
             }
             else
-                actionHandle.ChangeCharacterAction(CharacterAction.Idle);
+                destination = Vector3.zero;
         }
         void FixedUpdate()
         {
             Move(destination);
         }
+
+        void OnTriggerStay(Collider other)
+        {
+            other.TryGetComponent<WorkingRange>(out var _workingRange);
+            if (_workingRange == null) return;
+
+            _workingRange.StandOnWorkingRange(this);
+        }
+        //trigger exit to cancel hasworker
+
+
 
         public override void Initialized()
         {
@@ -40,8 +49,34 @@ namespace Runtime
         }
         public override void Move(Vector3 direction)
         {
-            if (actionHandle.CharacterAction != CharacterAction.Moving) return;
-            characterController.Move(direction * Time.deltaTime * speed);
+            characterController.Move(direction * Time.fixedDeltaTime * speed);
+        }
+
+        public override void WorkingForNowHAHA(AreaType areaType)
+        {
+            //Play action carry resource
+            SwitchAction(areaType);
+
+
+        }
+
+
+        void SwitchAction(AreaType areaType)
+        {
+            //use for now, change to stratery pattern?
+            switch (areaType)
+            {
+                case AreaType.None:
+                    break;
+                case AreaType.IronBarrelArea:
+                    actionHandle.ChangeCharacterAction(CharacterAction.CarryIron);
+                    break;
+                case AreaType.WoodBarrelArea:
+                    actionHandle.ChangeCharacterAction(CharacterAction.CarryWood);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

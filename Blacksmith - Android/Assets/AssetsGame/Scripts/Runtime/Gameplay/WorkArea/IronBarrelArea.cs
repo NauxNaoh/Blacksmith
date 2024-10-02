@@ -4,18 +4,45 @@ using UnityEngine;
 
 namespace Runtime
 {
-    public class IronBarrelArea : MonoBehaviour
+    public class IronBarrelArea : WorkArea
     {
-        // Start is called before the first frame update
-        void Start()
-        {
 
+        [SerializeField] private ResourceHandleUI resourceHandleUI;
+        [SerializeField] private Character Character;
+
+        [SerializeField] private AreaType areaType;
+        public int itemAmount = 150;
+
+        protected override void Initialized()
+        {
+            base.Initialized();
+            areaType = AreaType.IronBarrelArea;
+
+            if (resourceHandleUI == null)
+                resourceHandleUI = GetComponentInChildren<ResourceHandleUI>();
+
+            // change to new method Load?
+            resourceHandleUI.UpdateResourceAmountUI(itemAmount); 
         }
 
-        // Update is called once per frame
-        void Update()
+        public override void ArrangeWorkers(Character character)
         {
+            if (CheckHasWorker()) return;
+            Debug.Log($"Iron Barrel doing!");
 
+            SetWorker(true);
+            itemAmount -= 1;
+            resourceHandleUI.UpdateResourceAmountUI(itemAmount);
+
+            character.WorkingForNowHAHA(areaType);
+        }
+
+        [ContextMenu(nameof(AutoSetRef))]
+        public override void AutoSetRef()
+        {
+            base.AutoSetRef();
+            resourceHandleUI = GetComponentInChildren<ResourceHandleUI>();
         }
     }
+
 }

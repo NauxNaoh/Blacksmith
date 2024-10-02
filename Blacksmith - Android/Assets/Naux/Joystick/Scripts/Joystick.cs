@@ -13,7 +13,7 @@ namespace Naux.Joystick
         private RectTransform baseRect;
         private Vector2 directInput = Vector2.zero;
 
-        internal Vector2 Direction => directInput;
+        public Vector2 Direction => directInput;
 
         void Start()
         {

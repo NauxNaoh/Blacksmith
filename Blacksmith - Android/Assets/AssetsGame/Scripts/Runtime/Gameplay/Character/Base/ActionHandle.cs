@@ -8,9 +8,9 @@ namespace Runtime
     {
         private CharacterAction characterAction;
 
-        internal CharacterAction CharacterAction => characterAction;
+        public CharacterAction CharacterAction => characterAction;
 
-        internal void ChangeCharacterAction(CharacterAction action)
+        public void ChangeCharacterAction(CharacterAction action)
         {
             if (characterAction == action) return;
 
@@ -22,6 +22,10 @@ namespace Runtime
         Idle = 0,
         Moving = 1,
         Working = 2,
+
+        CarryIron = 50,
+
+        CarryWood = 100,
 
     }
 }
