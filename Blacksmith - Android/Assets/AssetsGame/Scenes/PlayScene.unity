@@ -447,7 +447,7 @@ GameObject:
   m_Component:
   - component: {fileID: 28145334}
   m_Layer: 0
-  m_Name: TaskBoard
+  m_Name: MissionBoard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1947,7 +1947,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49ea986a82a82fe4d89d31b28e68276b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  workingRange: {fileID: 0}
 --- !u!1 &444205451
 GameObject:
   m_ObjectHideFlags: 0
@@ -5778,7 +5777,7 @@ GameObject:
   - component: {fileID: 1094514207}
   - component: {fileID: 1094514206}
   m_Layer: 0
-  m_Name: TaskBoardArea
+  m_Name: MissionBoardArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5797,7 +5796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   workingRange: {fileID: 1588528474}
-  loadingProcessUI: {fileID: 0}
+  loadingProcessUI: {fileID: 554195322}
   waitingTime: 2
 --- !u!4 &1094514207
 Transform:

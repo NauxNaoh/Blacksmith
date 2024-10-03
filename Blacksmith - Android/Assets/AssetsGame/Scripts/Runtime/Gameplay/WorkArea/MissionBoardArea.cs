@@ -4,24 +4,24 @@ using UnityEngine;
 
 namespace Runtime
 {
-    public class TaskBoardArea : WorkArea
+    public class MissionBoardArea : WorkArea
     {
         [Space]
         [SerializeField] private LoadingProcessUI loadingProcessUI;
         [SerializeField] private float waitingTime;
         private float timer;
-        private bool showedTask;
+        private bool showedMission;
 
         void ResetLoadingProcess()
         {
             timer = 0;
-            showedTask = false;
+            showedMission = false;
         }
 
         protected override void Initialized()
         {
             base.Initialized();
-            areaType = AreaType.TaskBoardArea;
+            areaType = AreaType.MissionBoardArea;
             if (loadingProcessUI == null)
                 loadingProcessUI = GetComponentInChildren<LoadingProcessUI>();
 
@@ -35,7 +35,7 @@ namespace Runtime
 
         protected override bool CheckInvalidWorking(Character character)
         {
-            return character.CharacterType != CharacterType.Player || showedTask;
+            return character.CharacterType != CharacterType.Player || showedMission;
         }
 
         public override void WorkerMoveIn(Character character)
@@ -44,8 +44,8 @@ namespace Runtime
             
             if (timer >= waitingTime)
             {
-                showedTask = true;
-                Debug.Log("show task board");
+                showedMission = true;
+                Debug.Log("show Mission board");
             }
             else
             {
@@ -65,7 +65,7 @@ namespace Runtime
         public override void AutoSetRef()
         {
             base.AutoSetRef();
-            areaType = AreaType.TaskBoardArea;
+            areaType = AreaType.MissionBoardArea;
             loadingProcessUI = GetComponentInChildren<LoadingProcessUI>();
         }
 #endif
