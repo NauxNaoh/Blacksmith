@@ -6,11 +6,9 @@ namespace Runtime
 {
     public class IronBarrelArea : WorkArea
     {
-
+        [Space]
         [SerializeField] private ResourceHandleUI resourceHandleUI;
-        [SerializeField] private Character Character;
 
-        [SerializeField] private AreaType areaType;
         public int itemAmount = 150;
 
         protected override void Initialized()
@@ -20,15 +18,21 @@ namespace Runtime
 
             if (resourceHandleUI == null)
                 resourceHandleUI = GetComponentInChildren<ResourceHandleUI>();
-
-            // change to new method Load?
-            resourceHandleUI.UpdateResourceAmountUI(itemAmount); 
         }
 
-        public override void ArrangeWorkers(Character character)
+        protected override void LoadUI()
         {
-            if (CheckHasWorker()) return;
-            Debug.Log($"Iron Barrel doing!");
+            resourceHandleUI.UpdateResourceAmountUI(itemAmount);
+        }
+
+        protected override bool CheckInvalidWorking(Character character)
+        {
+            return false;
+        }
+
+        public override void WorkerMoveIn(Character character)
+        {
+            if (CheckInvalidWorking(character)) return;
 
             SetWorker(true);
             itemAmount -= 1;
@@ -36,13 +40,19 @@ namespace Runtime
 
             character.WorkingForNowHAHA(areaType);
         }
+        public override void WorkerMoveOut()
+        {
 
+        }
+
+#if UNITY_EDITOR
         [ContextMenu(nameof(AutoSetRef))]
         public override void AutoSetRef()
         {
             base.AutoSetRef();
+            areaType = AreaType.IronBarrelArea;
             resourceHandleUI = GetComponentInChildren<ResourceHandleUI>();
-        }
+        }       
+#endif
     }
-
 }

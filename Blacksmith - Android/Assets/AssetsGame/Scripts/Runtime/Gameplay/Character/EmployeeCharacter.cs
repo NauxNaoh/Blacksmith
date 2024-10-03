@@ -9,13 +9,14 @@ namespace Runtime
         [SerializeField] private EmployeeInfo employeeInfo;
 
 
-         void Start()
+        void Start()
         {
             Initialized();
         }
 
         public override void Initialized()
         {
+            characterType = CharacterType.Employee;
         }
         public override void Move(Vector3 direction)
         {
@@ -25,5 +26,5 @@ namespace Runtime
 
     }
 
-    
+
 }

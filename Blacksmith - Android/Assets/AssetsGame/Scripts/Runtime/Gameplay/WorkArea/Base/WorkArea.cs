@@ -7,40 +7,45 @@ namespace Runtime
     public abstract class WorkArea : MonoBehaviour
     {
         [SerializeField] private WorkingRange workingRange;
-        [SerializeField] private bool hasWorker;
 
-        protected void SetWorker(bool status) => hasWorker = status;
-        protected bool CheckHasWorker() => hasWorker;
+        protected AreaType areaType;
+        private bool hasWorker;
+        protected void SetWorker(bool status) => hasWorker = status; //change or remove?
 
 
         void Start()
         {
             Initialized();
+            LoadUI();
         }
 
         protected virtual void Initialized()
         {
             if (workingRange == null)
                 workingRange = GetComponentInChildren<WorkingRange>();
-
             workingRange.SetWorkArea(this);
         }
-        public abstract void ArrangeWorkers(Character character);
+
+        protected abstract void LoadUI();
+        protected abstract bool CheckInvalidWorking(Character character);
+        public abstract void WorkerMoveIn(Character character);
+        public abstract void WorkerMoveOut();
 
 
+#if UNITY_EDITOR
         public virtual void AutoSetRef()
         {
             workingRange = GetComponentInChildren<WorkingRange>();
-
-            Debug.LogError($"GameObject {gameObject.name} - auto set ref completed");
+            Debug.LogWarning($"GameObject {gameObject.name} - auto set ref completed");
         }
+#endif
     }
 
     public enum AreaType
     {
         None = 0,
+        TaskBoardArea = 40,
         IronBarrelArea = 50,
-
         WoodBarrelArea = 100,
     }
 }

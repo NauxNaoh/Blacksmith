@@ -39,12 +39,19 @@ namespace Runtime
 
             _workingRange.StandOnWorkingRange(this);
         }
-        //trigger exit to cancel hasworker
+        void OnTriggerExit(Collider other)
+        {
+            other.TryGetComponent<WorkingRange>(out var _workingRange);
+            if (_workingRange == null) return;
+
+            _workingRange.ExitOnWorkingRange();
+        }
 
 
 
         public override void Initialized()
         {
+            characterType = CharacterType.Player;
             characterController = GetComponent<CharacterController>();
         }
         public override void Move(Vector3 direction)
@@ -56,7 +63,7 @@ namespace Runtime
         {
             //Play action carry resource
             SwitchAction(areaType);
-
+            Debug.Log($"{areaType} doing!");
 
         }
 

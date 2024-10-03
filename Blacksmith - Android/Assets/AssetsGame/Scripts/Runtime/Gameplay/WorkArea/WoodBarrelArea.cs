@@ -4,13 +4,12 @@ using UnityEngine;
 
 namespace Runtime
 {
-    public class WoodBarrelArea : WorkArea
+    public class WoodBarrelArea : MonoBehaviour
+
     {
-        public override void ArrangeWorkers(Character character)
-        {
-            Debug.Log($"Wood Barrel doing!");
 
-        }
+       
 
+     
     }
 }

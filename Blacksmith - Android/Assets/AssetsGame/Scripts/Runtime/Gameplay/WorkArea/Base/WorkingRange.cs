@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Runtime
@@ -15,7 +13,12 @@ namespace Runtime
 
         public void StandOnWorkingRange(Character character)
         {
-            workArea.ArrangeWorkers(character);
+            workArea.WorkerMoveIn(character);
+        }
+
+        public void ExitOnWorkingRange()
+        {
+            workArea.WorkerMoveOut();
         }
     }
 }
