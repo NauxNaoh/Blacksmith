@@ -9,8 +9,8 @@ namespace Runtime
         [SerializeField] private WorkingRange workingRange;
 
         protected AreaType areaType;
-        private bool hasWorker;
-        protected void SetWorker(bool status) => hasWorker = status; //change or remove?
+        protected Character characterWork;
+        protected void SetWorker(Character character) => characterWork = character;
 
 
         void Start()
@@ -46,6 +46,7 @@ namespace Runtime
         None = 0,
         MissionBoardArea = 40,
         IronBarrelArea = 50,
+        KilnArea = 51,
         WoodBarrelArea = 100,
     }
 }

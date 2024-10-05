@@ -27,22 +27,22 @@ namespace Runtime
 
         protected override bool CheckInvalidWorking(Character character)
         {
-            return false;
+            return characterWork != null;
         }
 
         public override void WorkerMoveIn(Character character)
         {
             if (CheckInvalidWorking(character)) return;
 
-            SetWorker(true);
             itemAmount -= 1;
-            resourceHandleUI.UpdateResourceAmountUI(itemAmount);
+            LoadUI();
 
+            SetWorker(character);
             character.WorkingForNowHAHA(areaType);
         }
         public override void WorkerMoveOut()
         {
-
+            SetWorker(null);
         }
 
 #if UNITY_EDITOR
@@ -50,7 +50,6 @@ namespace Runtime
         public override void AutoSetRef()
         {
             base.AutoSetRef();
-            areaType = AreaType.IronBarrelArea;
             resourceHandleUI = GetComponentInChildren<ResourceHandleUI>();
         }       
 #endif

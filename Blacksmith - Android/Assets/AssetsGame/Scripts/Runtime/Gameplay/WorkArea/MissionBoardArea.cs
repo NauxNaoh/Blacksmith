@@ -16,6 +16,7 @@ namespace Runtime
         {
             timer = 0;
             showedMission = false;
+            loadingProcessUI.SetActiveLoading(false);
         }
 
         protected override void Initialized()
@@ -45,12 +46,13 @@ namespace Runtime
             if (timer >= waitingTime)
             {
                 showedMission = true;
-                Debug.Log("show Mission board");
+                Debug.Log($"show {gameObject.name} board");
             }
             else
             {
                 timer += Time.deltaTime;
                 LoadUI();
+                loadingProcessUI.SetActiveLoading(true);
             }
         }
 
@@ -65,7 +67,6 @@ namespace Runtime
         public override void AutoSetRef()
         {
             base.AutoSetRef();
-            areaType = AreaType.MissionBoardArea;
             loadingProcessUI = GetComponentInChildren<LoadingProcessUI>();
         }
 #endif
