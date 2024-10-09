@@ -13,7 +13,7 @@ namespace Runtime
         protected void SetWorker(Character character) => characterWork = character;
 
 
-        void Start()
+        private void Start()
         {
             Initialized();
             LoadUI();

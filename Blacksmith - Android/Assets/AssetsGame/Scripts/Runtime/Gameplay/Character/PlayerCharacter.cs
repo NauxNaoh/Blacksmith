@@ -11,12 +11,12 @@ namespace Runtime
         private CharacterController characterController;
         private Vector3 destination = Vector3.zero;
 
-        void Start()
+        private void Start()
         {
             Initialized();
         }
 
-        void Update()
+        private void Update()
         {
             var _joystickDir = joystick.Direction;
             if (_joystickDir.magnitude > 0)
@@ -27,7 +27,7 @@ namespace Runtime
             else
                 destination = Vector3.zero;
         }
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             Move(destination);
         }

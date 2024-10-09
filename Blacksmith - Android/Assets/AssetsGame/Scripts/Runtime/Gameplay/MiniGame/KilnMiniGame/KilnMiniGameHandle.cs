@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,13 +15,14 @@ namespace Runtime
         [SerializeField] private ItemMove itemMove;
         [SerializeField] private List<FireMove> lstFireMove = new List<FireMove>();
 
-        private GameState gameState;
+        private KilnMiniGameState gameState;
         private RowPosition rowPosition;
         private float limitPlayTime = 5.5f;
         private float limitMoveTime = 0.15f;
-        private CancellationTokenSource moveCancellationTokenSource;
 
-        void SetGameState(GameState state) => gameState = state;
+        private Coroutine moveCoroutine;
+
+        void SetGameState(KilnMiniGameState state) => gameState = state;
         void RegisterButtonEvent()
         {
             btnLeft.onClick.AddListener(OnClickMoveLeft);
@@ -39,12 +38,13 @@ namespace Runtime
             if (Input.GetKeyDown(KeyCode.A))
             {
                 SetupBoard();
-                StartMiniGame();
+                BoardGameInitialized();
+                StartCoroutine(StartMiniGameRoutine());
             }
         }
-        public void InitializedBoardGame()
+        public void BoardGameInitialized()
         {
-            SetGameState(GameState.Initialized);
+            SetGameState(KilnMiniGameState.Initialized);
 
             var _posSpawn = Vector3.zero;
             var _oldRand = 0;
@@ -83,28 +83,42 @@ namespace Runtime
             itemMove.ResetCounter();
         }
 
-        public async void StartMiniGame()
+        IEnumerator StartMiniGameRoutine()
         {
             RegisterButtonEvent();
-            SetGameState(GameState.Playing);
-            await Task.WhenAll(RunningBoard(limitPlayTime), RunningCheckHitFire(limitPlayTime));
+            SetGameState(KilnMiniGameState.Playing);
+
+            var _boardCoroutine = RunningBoardRoutine(limitPlayTime);
+            var _checkHitFireCoroutine = RunningCheckHitFireRoutine(limitPlayTime);
+            yield return StartCoroutine(RunMultipleCoroutines(_boardCoroutine, _checkHitFireCoroutine));
 
             var _totalTouch = itemMove.CountTouch;
             Debug.LogError($"total touch = {_totalTouch}");
-            SetGameState(GameState.None);
+            SetGameState(KilnMiniGameState.None);
             UnregisterButtonEvent();
         }
 
-        async Task RunningBoard(float duration)
+        IEnumerator RunMultipleCoroutines(params IEnumerator[] enumerators)
+        {
+            var _lstCoroutine = new List<Coroutine>();
+
+            for (int i = 0, _count = enumerators.Length; i < _count; i++)
+                _lstCoroutine.Add(StartCoroutine(enumerators[i]));
+
+            for (int i = 0, _count = _lstCoroutine.Count; i < _count; i++)
+                yield return _lstCoroutine[i];
+        }
+
+        IEnumerator RunningBoardRoutine(float duration)
         {
             var _destinationY = -(rectBoard.sizeDelta.y + rectRowHolder.sizeDelta.y);
             var _startPos = rectRowHolder.anchoredPosition;
             var _endPos = new Vector2(_startPos.x, _destinationY);
 
-            await SmoothMove(rectRowHolder, _startPos, _endPos, duration);
+            yield return StartCoroutine(SmoothMoveRoutine(rectRowHolder, _startPos, _endPos, duration));
         }
 
-        async Task SmoothMove(RectTransform rectTransform, Vector2 startPos, Vector2 endPos, float duration)
+        IEnumerator SmoothMoveRoutine(RectTransform rectTransform, Vector2 startPos, Vector2 endPos, float duration)
         {
             float _elapsedTime = 0;
             while (_elapsedTime < duration)
@@ -113,12 +127,12 @@ namespace Runtime
                 rectTransform.anchoredPosition = Vector2.Lerp(startPos, endPos, _t);
 
                 _elapsedTime += Time.deltaTime;
-                await Task.Yield();
+                yield return null;
             }
             rectTransform.anchoredPosition = endPos;
         }
 
-        async Task RunningCheckHitFire(float duration)
+        IEnumerator RunningCheckHitFireRoutine(float duration)
         {
             var _elapsedTime = 0f;
             var _countFire = lstFireMove.Count;
@@ -139,7 +153,7 @@ namespace Runtime
                 }
 
                 _elapsedTime += Time.deltaTime;
-                await Task.Yield();
+                yield return null;
             }
         }
 
@@ -154,32 +168,37 @@ namespace Runtime
 
         void OnClickMoveLeft()
         {
-            Move(-1, limitMoveTime);
+            if (gameState != KilnMiniGameState.Playing) return;
+            StartCoroutine(MoveRoutine(-1, limitMoveTime));
         }
 
         void OnClickMoveRight()
         {
-            Move(1, limitMoveTime);
+            if (gameState != KilnMiniGameState.Playing) return;
+            StartCoroutine(MoveRoutine(1, limitMoveTime));
         }
 
-        async void Move(int direction, float duration = 0)
+        IEnumerator MoveRoutine(int direction, float duration = 0)
         {
-            if (moveCancellationTokenSource != null && !moveCancellationTokenSource.IsCancellationRequested)
-                moveCancellationTokenSource.Cancel();
-            moveCancellationTokenSource = new CancellationTokenSource();
+            if (moveCoroutine != null)
+                StopCoroutine(moveCoroutine);
 
             rowPosition = (RowPosition)Mathf.Clamp((int)rowPosition + direction, (int)RowPosition.Left, (int)RowPosition.Right);
             var _posRow = rectRowHolder.sizeDelta.x / 3;
             var _endPos = new Vector2((int)rowPosition * _posRow - _posRow, 100);
             var _rectTransItem = itemMove.GetRectTransform();
 
-            await SmoothMove(_rectTransItem, _rectTransItem.anchoredPosition, _endPos, duration);
+            moveCoroutine = StartCoroutine(SmoothMoveRoutine(_rectTransItem, _rectTransItem.anchoredPosition, _endPos, duration));
+            yield return moveCoroutine;
+            moveCoroutine = null;
         }
 
 
         [ContextMenu(nameof(SetupBoard))]
         void SetupBoard()
         {
+            SetGameState(KilnMiniGameState.None);
+
             var _pivot = new Vector2(0.5f, 0);
             var _anchoHolder = new Vector2(0.5f, 1);
             var _anchoRows = new Vector2(0.5f, 0);
@@ -207,11 +226,9 @@ namespace Runtime
                 else if (i == 2)
                     lstRectRow[i].anchoredPosition = new Vector3(_widthSizeRow, 0, 0);
             }
-
-            SetGameState(GameState.None);
         }
     }
-    public enum GameState
+    public enum KilnMiniGameState
     {
         None = 0,
         Initialized = 1,
