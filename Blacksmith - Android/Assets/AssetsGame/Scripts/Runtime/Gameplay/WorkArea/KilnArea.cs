@@ -26,6 +26,7 @@ namespace Runtime
         protected override void InitializedUI()
         {
             UpdateLoadingUI();
+            loadingWorkUI.SetActiveLoading(false);
         }
         protected override void ResetInitialized()
         {
@@ -38,12 +39,14 @@ namespace Runtime
         }
         public override void WorkerMoveIn(Character character)
         {
-            if (CheckValidWorking(character)) return;
+            if (!CheckValidWorking(character)) return;
+            SetWorker(character);
 
             if (timer >= waitingTime)
             {
                 acceptedWorker = true;
                 Debug.Log($"show {gameObject.name} mini game");
+                character.WorkingForNowHAHA(areaType);
             }
             else
             {
@@ -57,6 +60,7 @@ namespace Runtime
             ResetInitialized();
             loadingWorkUI.SetActiveLoading(false);
             UpdateLoadingUI();
+            SetWorker(null);
         }
 
 #if UNITY_EDITOR

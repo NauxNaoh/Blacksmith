@@ -9,7 +9,6 @@ namespace Runtime
         [Space]
         [SerializeField] private LoadingWorkUI loadingWorkUI;
 
-
         void UpdateLoadingUI()
         {
             var value = timer / waitingTime;
@@ -29,6 +28,7 @@ namespace Runtime
         protected override void InitializedUI()
         {
             UpdateLoadingUI();
+            loadingWorkUI.SetActiveLoading(false);
         }
         protected override void ResetInitialized()
         {
