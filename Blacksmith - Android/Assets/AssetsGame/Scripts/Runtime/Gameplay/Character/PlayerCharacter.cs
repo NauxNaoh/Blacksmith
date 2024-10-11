@@ -63,7 +63,7 @@ namespace Runtime
         {
             //Play action carry resource
             SwitchAction(areaType);
-            Debug.Log($"{areaType} doing!");
+            Debug.Log($"character doing {areaType}!");
 
         }
 

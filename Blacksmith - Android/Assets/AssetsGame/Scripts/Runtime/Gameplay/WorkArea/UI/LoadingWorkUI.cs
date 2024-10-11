@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadingProcessUI : MonoBehaviour
+public class LoadingWorkUI : MonoBehaviour
 {
-    [SerializeField] private GameObject gobjLoadingProcess;
+    [SerializeField] private GameObject gobjLoading;
     [SerializeField] private Image imgCircleFill;
 
     public void SetActiveLoading(bool status)
     {
-        gobjLoadingProcess.SetActive(status);
+        gobjLoading.SetActive(status);
     }
 
     public void UpdateLoadingProcessUI(float value)

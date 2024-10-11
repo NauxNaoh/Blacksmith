@@ -7,41 +7,71 @@ namespace Runtime
     public class IronBarrelArea : WorkArea
     {
         [Space]
-        [SerializeField] private ResourceHandleUI resourceHandleUI;
+        [SerializeField] private LoadingResourceUI loadingResourceUI;
+        [SerializeField] private int itemAmount = 150;
 
-        public int itemAmount = 150;
+        void UpdateLoadingUI()
+        {
+            var value = timer / waitingTime;
+            loadingResourceUI.UpdateLoadingProcessUI(value);
+        }
+        void UpdateResourceUI()
+        {
+            loadingResourceUI.UpdateResourceAmountUI(itemAmount);
+        }
 
+       
         protected override void Initialized()
         {
             base.Initialized();
             areaType = AreaType.IronBarrelArea;
+            waitingTime = 2;
 
-            if (resourceHandleUI == null)
-                resourceHandleUI = GetComponentInChildren<ResourceHandleUI>();
+            if (loadingResourceUI == null)
+                loadingResourceUI = GetComponentInChildren<LoadingResourceUI>();
+            ResetInitialized();
         }
-
-        protected override void LoadUI()
+        protected override void InitializedUI()
         {
-            resourceHandleUI.UpdateResourceAmountUI(itemAmount);
+            UpdateLoadingUI();
+            UpdateResourceUI();
+            loadingResourceUI.SetActiveLoading(false);
         }
-
-        protected override bool CheckInvalidWorking(Character character)
+        protected override void ResetInitialized()
         {
-            return characterWork != null;
+            timer = 0;
+            acceptedWorker = false;
+        }
+        protected override bool CheckValidWorking(Character character)
+        {            
+            return characterWork == null || characterWork == character && !acceptedWorker;
         }
 
         public override void WorkerMoveIn(Character character)
         {
-            if (CheckInvalidWorking(character)) return;
-
-            itemAmount -= 1;
-            LoadUI();
-
+            if (!CheckValidWorking(character)) return;
             SetWorker(character);
-            character.WorkingForNowHAHA(areaType);
+            
+            if (timer >= waitingTime)
+            {
+                acceptedWorker = true;
+                itemAmount -= 1;
+                UpdateResourceUI();
+                Debug.Log($"Get item {gameObject.name} success");
+                character.WorkingForNowHAHA(areaType);
+            }
+            else
+            {
+                timer += Time.deltaTime;
+                UpdateLoadingUI();
+                loadingResourceUI.SetActiveLoading(true);
+            }
         }
         public override void WorkerMoveOut()
         {
+            ResetInitialized();
+            loadingResourceUI.SetActiveLoading(false);
+            UpdateLoadingUI();
             SetWorker(null);
         }
 
@@ -50,7 +80,7 @@ namespace Runtime
         public override void AutoSetRef()
         {
             base.AutoSetRef();
-            resourceHandleUI = GetComponentInChildren<ResourceHandleUI>();
+            loadingResourceUI = GetComponentInChildren<LoadingResourceUI>();
         }       
 #endif
     }

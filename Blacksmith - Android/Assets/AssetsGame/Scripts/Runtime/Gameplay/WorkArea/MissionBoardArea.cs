@@ -7,59 +7,59 @@ namespace Runtime
     public class MissionBoardArea : WorkArea
     {
         [Space]
-        [SerializeField] private LoadingProcessUI loadingProcessUI;
-        [SerializeField] private float waitingTime;
-        private float timer;
-        private bool showedMission;
+        [SerializeField] private LoadingWorkUI loadingWorkUI;
 
-        void ResetLoadingProcess()
+
+        void UpdateLoadingUI()
         {
-            timer = 0;
-            showedMission = false;
-            loadingProcessUI.SetActiveLoading(false);
+            var value = timer / waitingTime;
+            loadingWorkUI.UpdateLoadingProcessUI(value);
         }
 
         protected override void Initialized()
         {
             base.Initialized();
             areaType = AreaType.MissionBoardArea;
-            if (loadingProcessUI == null)
-                loadingProcessUI = GetComponentInChildren<LoadingProcessUI>();
+            waitingTime = 2;
 
-            ResetLoadingProcess();
+            if (loadingWorkUI == null)
+                loadingWorkUI = GetComponentInChildren<LoadingWorkUI>();
+            ResetInitialized();
         }
-        protected override void LoadUI()
+        protected override void InitializedUI()
         {
-            var value = timer / waitingTime;
-            loadingProcessUI.UpdateLoadingProcessUI(value);
+            UpdateLoadingUI();
         }
-
-        protected override bool CheckInvalidWorking(Character character)
+        protected override void ResetInitialized()
         {
-            return character.CharacterType != CharacterType.Player || showedMission;
+            timer = 0;
+            acceptedWorker = false;
         }
-
+        protected override bool CheckValidWorking(Character character)
+        {
+            return character.CharacterType == CharacterType.Player && !acceptedWorker;
+        }
         public override void WorkerMoveIn(Character character)
         {
-            if (CheckInvalidWorking(character)) return;
-            
+            if (!CheckValidWorking(character)) return;
+
             if (timer >= waitingTime)
             {
-                showedMission = true;
+                acceptedWorker = true;
                 Debug.Log($"show {gameObject.name} board");
             }
             else
             {
                 timer += Time.deltaTime;
-                LoadUI();
-                loadingProcessUI.SetActiveLoading(true);
+                InitializedUI();
+                loadingWorkUI.SetActiveLoading(true);
             }
         }
-
         public override void WorkerMoveOut()
         {
-            ResetLoadingProcess();
-            LoadUI();
+            ResetInitialized();
+            loadingWorkUI.SetActiveLoading(false);
+            UpdateLoadingUI();
         }
 
 #if UNITY_EDITOR
@@ -67,7 +67,7 @@ namespace Runtime
         public override void AutoSetRef()
         {
             base.AutoSetRef();
-            loadingProcessUI = GetComponentInChildren<LoadingProcessUI>();
+            loadingWorkUI = GetComponentInChildren<LoadingWorkUI>();
         }
 #endif
     }

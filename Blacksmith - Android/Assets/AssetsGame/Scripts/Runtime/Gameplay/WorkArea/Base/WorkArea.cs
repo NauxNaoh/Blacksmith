@@ -7,16 +7,18 @@ namespace Runtime
     public abstract class WorkArea : MonoBehaviour
     {
         [SerializeField] private WorkingRange workingRange;
-
         protected AreaType areaType;
         protected Character characterWork;
+        
+        protected float waitingTime;
+        protected float timer;
+        protected bool acceptedWorker;
         protected void SetWorker(Character character) => characterWork = character;
-
 
         private void Start()
         {
             Initialized();
-            LoadUI();
+            InitializedUI();
         }
 
         protected virtual void Initialized()
@@ -25,9 +27,9 @@ namespace Runtime
                 workingRange = GetComponentInChildren<WorkingRange>();
             workingRange.SetWorkArea(this);
         }
-
-        protected abstract void LoadUI();
-        protected abstract bool CheckInvalidWorking(Character character);
+        protected abstract void InitializedUI();
+        protected abstract void ResetInitialized();
+        protected abstract bool CheckValidWorking(Character character);
         public abstract void WorkerMoveIn(Character character);
         public abstract void WorkerMoveOut();
 
