@@ -6627,6 +6627,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 885380754}
+  - component: {fileID: 885380755}
   m_Layer: 5
   m_Name: CraftMiniGamePopup
   m_TagString: Untagged
@@ -6654,6 +6655,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &885380755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 885380753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f589679dff160364981a14c46a17efb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contentPopup: {fileID: 1919073214}
 --- !u!1 &899112990
 GameObject:
   m_ObjectHideFlags: 0
@@ -7559,6 +7573,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1030555436}
+  - component: {fileID: 1030555437}
   m_Layer: 5
   m_Name: KilnMiniGamePopup
   m_TagString: Untagged
@@ -7586,6 +7601,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1030555437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030555435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e83c44a5ab725e4c82a22698fb25784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contentPopup: {fileID: 817361302}
 --- !u!1 &1038257726
 GameObject:
   m_ObjectHideFlags: 0
@@ -9845,7 +9873,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1449813856
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12015,6 +12043,7 @@ GameObject:
   - component: {fileID: 1835432071}
   - component: {fileID: 1835432070}
   - component: {fileID: 1835432069}
+  - component: {fileID: 1835432073}
   m_Layer: 5
   m_Name: CanvasLocalPopup
   m_TagString: Untagged
@@ -12106,6 +12135,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1835432073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835432068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331ece48b2df9be45b842c67783b2647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 0
+  fadePanel: {fileID: 1449813855}
+  lstLocalPopup:
+  - {fileID: 1030555437}
+  - {fileID: 885380755}
 --- !u!1 &1857165953
 GameObject:
   m_ObjectHideFlags: 0
@@ -12753,7 +12799,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1919073215
 RectTransform:
   m_ObjectHideFlags: 0
