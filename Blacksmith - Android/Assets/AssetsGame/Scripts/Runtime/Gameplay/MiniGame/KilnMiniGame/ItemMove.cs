@@ -6,14 +6,15 @@ namespace Runtime
     {
         private RectTransform rectItemMove;
         private int countTouch;
-        
+
         public int CountTouch => countTouch;
         public RectTransform GetRectTransform() => rectItemMove;
 
 
-        private void Awake()
+        public void Initialized()
         {
-            rectItemMove = GetComponent<RectTransform>();
+            if (rectItemMove == null)
+                rectItemMove = GetComponent<RectTransform>();
         }
 
         public void SetAnchorPositionItem(Vector2 vector2)

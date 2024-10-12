@@ -1,4 +1,5 @@
 using Naux.Joystick;
+using System.Collections;
 using UnityEngine;
 
 namespace Runtime
@@ -11,9 +12,21 @@ namespace Runtime
         private CharacterController characterController;
         private Vector3 destination = Vector3.zero;
 
+        private KilnMiniGameHandle kilnMiniGameHandle;
+        private CraftMiniGameHandle craftMiniGameHandle;
+
         private void Start()
         {
             Initialized();
+            StartCoroutine(RegisterInstanceMiniGame());
+        }
+        IEnumerator RegisterInstanceMiniGame()
+        {
+            yield return new WaitUntil(() => KilnMiniGameHandle.Instance != null);
+            kilnMiniGameHandle = KilnMiniGameHandle.Instance;
+
+            yield return new WaitUntil(() => CraftMiniGameHandle.Instance != null);
+            craftMiniGameHandle = CraftMiniGameHandle.Instance;
         }
 
         private void Update()
@@ -47,8 +60,6 @@ namespace Runtime
             _workingRange.ExitOnWorkingRange();
         }
 
-
-
         public override void Initialized()
         {
             characterType = CharacterType.Player;
@@ -75,15 +86,46 @@ namespace Runtime
             {
                 case AreaType.None:
                     break;
+                case AreaType.MissionBoardArea:
+                    break;
+
                 case AreaType.IronBarrelArea:
                     actionHandle.ChangeCharacterAction(CharacterAction.CarryIron);
                     break;
                 case AreaType.WoodBarrelArea:
                     actionHandle.ChangeCharacterAction(CharacterAction.CarryWood);
                     break;
+
+                case AreaType.KilnArea:
+                    StartCoroutine(DoingKilnArea());
+                    break;
+                case AreaType.CraftTableArea:
+                    StartCoroutine(DoingCraftTableArea());
+                    break;
                 default:
                     break;
             }
+        }
+        IEnumerator DoingKilnArea()
+        {
+            kilnMiniGameHandle.BoardGameInitialized();
+            LocalPopupHandle.Instance.ShowLocalPopup(PopupType.KilnMiniGame);
+            yield return StartCoroutine(kilnMiniGameHandle.StartMiniGameRoutine(CallBackTest));
+
+            LocalPopupHandle.Instance.HideLocalPopup();
+        }
+        IEnumerator DoingCraftTableArea()
+        {
+            craftMiniGameHandle.BoardGameInitialized();
+            LocalPopupHandle.Instance.ShowLocalPopup(PopupType.CraftMiniGame);
+            yield return StartCoroutine(craftMiniGameHandle.StartMiniGameRoutine(CallBackTest));
+
+            LocalPopupHandle.Instance.HideLocalPopup();
+        }
+
+        void CallBackTest(bool status)
+        {
+            Debug.LogError($"status mini game = {status}");
         }
     }
 }

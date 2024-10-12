@@ -8,8 +8,9 @@ namespace Naux.DB
     public class DBController : Singleton<DBController>
     {
         #region Default
-        protected override void CustomAwake()
+        protected override void Awake()
         {
+            base.Awake();
             Initializing();
         }
 

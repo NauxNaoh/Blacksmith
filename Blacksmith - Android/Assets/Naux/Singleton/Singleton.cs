@@ -9,7 +9,7 @@ namespace Naux.Patterns
         private static T instance;
         public static T Instance => instance;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (instance == null)
             {
@@ -19,13 +19,11 @@ namespace Naux.Patterns
                 {
                     DontDestroyOnLoad(gameObject);
                 }
-                CustomAwake();
             }
             else
             {
                 Destroy(gameObject);
             }
         }
-        protected virtual void CustomAwake() { }
     }
 }

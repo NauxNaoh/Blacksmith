@@ -15,10 +15,9 @@ namespace Runtime
         void SetLocalPopupState(LocalPopupState state) => localPopupState = state;
         void ShowPanel(bool status) => fadePanel.SetActive(status);
 
-
-
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             Initialized();
         }
         void Initialized()
@@ -35,7 +34,8 @@ namespace Runtime
             return lstLocalPopup.Find(x => x.PopupType == type);
         }
 
-        public void ShowLocalPopup(PopupType popupType)             //handle async popup later
+        //handle async or wait queue popup later
+        public void ShowLocalPopup(PopupType popupType)   
         {
             if (localPopupState == LocalPopupState.Showing) return;
 
@@ -64,17 +64,15 @@ namespace Runtime
             }
             SetLocalPopupState(LocalPopupState.Hiding);
             showingPopup = PopupType.None;
-            _popup.Show();
+            _popup.Hide();
             ShowPanel(false);
         }
-
-
-        public enum LocalPopupState
-        {
-            None = 0,
-            Initialized = 1,
-            Showing = 2,
-            Hiding = 3,
-        }
+    }
+    public enum LocalPopupState
+    {
+        None = 0,
+        Initialized = 1,
+        Showing = 2,
+        Hiding = 3,
     }
 }

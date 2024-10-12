@@ -1,11 +1,13 @@
+using Naux.Patterns;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Runtime
 {
-    public class KilnMiniGameHandle : MonoBehaviour
+    public class KilnMiniGameHandle : Singleton<KilnMiniGameHandle>
     {
         [SerializeField] private Button btnLeft;
         [SerializeField] private Button btnRight;
@@ -22,6 +24,7 @@ namespace Runtime
 
         private Coroutine moveCoroutine;
 
+
         void SetGameState(KilnMiniGameState state) => gameState = state;
         void RegisterButtonEvent()
         {
@@ -33,18 +36,12 @@ namespace Runtime
             btnLeft.onClick.RemoveListener(OnClickMoveLeft);
             btnRight.onClick.RemoveListener(OnClickMoveRight);
         }
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                SetupBoard();
-                BoardGameInitialized();
-                StartCoroutine(StartMiniGameRoutine());
-            }
-        }
+
+
         public void BoardGameInitialized()
         {
             SetGameState(KilnMiniGameState.Initialized);
+            SetupBoard();
 
             var _posSpawn = Vector3.zero;
             var _oldRand = 0;
@@ -73,28 +70,69 @@ namespace Runtime
                 }
                 _posSpawn.y += 300;
                 var _fire = lstFireMove[i];
+                _fire.Initialized();
                 _fire.SetParrentFire(lstRectRow[_rand]);
                 _fire.SetAnchorPositionItem(_posSpawn);
                 _fire.SetStatusFire(true);
             }
             rowPosition = RowPosition.Middle;
 
+            itemMove.Initialized();
             itemMove.SetAnchorPositionItem(new Vector2(0, 100));
             itemMove.ResetCounter();
         }
 
-        IEnumerator StartMiniGameRoutine()
+        public void SetupBoard()
         {
-            RegisterButtonEvent();
+            SetGameState(KilnMiniGameState.None);
+
+            var _pivot = new Vector2(0.5f, 0);
+            var _anchoHolder = new Vector2(0.5f, 1);
+            var _anchoRows = new Vector2(0.5f, 0);
+
+            rectRowHolder.anchorMin = _anchoHolder;
+            rectRowHolder.anchorMax = _anchoHolder;
+            rectRowHolder.pivot = _pivot;
+            rectRowHolder.sizeDelta = new Vector3(rectBoard.sizeDelta.x, 3200);
+            rectRowHolder.anchoredPosition = Vector3.zero;
+            rectRowHolder.anchoredPosition = Vector3.zero;
+
+            var _widthSizeRow = rectRowHolder.sizeDelta.x / 3;
+            var _sizeRow = new Vector2(_widthSizeRow, 0);
+            for (int i = 0; i < 3; i++)
+            {
+                lstRectRow[i].anchorMin = _anchoRows;
+                lstRectRow[i].anchorMax = _anchoRows;
+                lstRectRow[i].pivot = _pivot;
+                lstRectRow[i].sizeDelta = _sizeRow;
+
+                if (i == 0)
+                    lstRectRow[i].anchoredPosition = new Vector3(-_widthSizeRow, 0, 0);
+                else if (i == 1)
+                    lstRectRow[i].anchoredPosition = Vector3.zero;
+                else if (i == 2)
+                    lstRectRow[i].anchoredPosition = new Vector3(_widthSizeRow, 0, 0);
+            }
+        }
+
+        public IEnumerator StartMiniGameRoutine(UnityAction<bool> callback)
+        {
             SetGameState(KilnMiniGameState.Playing);
+            RegisterButtonEvent();
 
             var _boardCoroutine = RunningBoardRoutine(limitPlayTime);
             var _checkHitFireCoroutine = RunningCheckHitFireRoutine(limitPlayTime);
             yield return StartCoroutine(RunMultipleCoroutines(_boardCoroutine, _checkHitFireCoroutine));
+            EndGame();
 
-            var _totalTouch = itemMove.CountTouch;
-            Debug.LogError($"total touch = {_totalTouch}");
-            SetGameState(KilnMiniGameState.None);
+            yield return new WaitUntil(() => gameState == KilnMiniGameState.EndGame);
+            var _result = CheckValidResult();
+            callback?.Invoke(_result);
+        }
+
+        void EndGame()
+        {
+            SetGameState(KilnMiniGameState.EndGame);
             UnregisterButtonEvent();
         }
 
@@ -193,39 +231,10 @@ namespace Runtime
             moveCoroutine = null;
         }
 
-
-        [ContextMenu(nameof(SetupBoard))]
-        void SetupBoard()
+        bool CheckValidResult()
         {
-            SetGameState(KilnMiniGameState.None);
-
-            var _pivot = new Vector2(0.5f, 0);
-            var _anchoHolder = new Vector2(0.5f, 1);
-            var _anchoRows = new Vector2(0.5f, 0);
-
-            rectRowHolder.anchorMin = _anchoHolder;
-            rectRowHolder.anchorMax = _anchoHolder;
-            rectRowHolder.pivot = _pivot;
-            rectRowHolder.sizeDelta = new Vector3(rectBoard.sizeDelta.x, 3200);
-            rectRowHolder.anchoredPosition = Vector3.zero;
-            rectRowHolder.anchoredPosition = Vector3.zero;
-
-            var _widthSizeRow = rectRowHolder.sizeDelta.x / 3;
-            var _sizeRow = new Vector2(_widthSizeRow, 0);
-            for (int i = 0; i < 3; i++)
-            {
-                lstRectRow[i].anchorMin = _anchoRows;
-                lstRectRow[i].anchorMax = _anchoRows;
-                lstRectRow[i].pivot = _pivot;
-                lstRectRow[i].sizeDelta = _sizeRow;
-
-                if (i == 0)
-                    lstRectRow[i].anchoredPosition = new Vector3(-_widthSizeRow, 0, 0);
-                else if (i == 1)
-                    lstRectRow[i].anchoredPosition = Vector3.zero;
-                else if (i == 2)
-                    lstRectRow[i].anchoredPosition = new Vector3(_widthSizeRow, 0, 0);
-            }
+            var _totalTouch = itemMove.CountTouch;
+            return _totalTouch > 0;
         }
     }
     public enum KilnMiniGameState
@@ -233,6 +242,7 @@ namespace Runtime
         None = 0,
         Initialized = 1,
         Playing = 2,
+        EndGame = 3,
     }
     public enum RowPosition
     {

@@ -1,11 +1,13 @@
+using Naux.Patterns;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Runtime
 {
-    public class CraftMiniGameHandle : MonoBehaviour
+    public class CraftMiniGameHandle : Singleton<CraftMiniGameHandle>
     {
         [SerializeField] private RectTransform rectCraftingBar;
         [SerializeField] private RectTransform rectTargetZone;
@@ -28,13 +30,6 @@ namespace Runtime
         void UnregisterButtonEvent() => btnCraft.onClick.RemoveListener(OnClickCraft);
 
 
-        private void Start()
-        {
-            BoardGameInitialized();
-            RegisterButtonEvent();
-            startMoveSliderCoroutine = StartCoroutine(MoveCraftSliderRoutine());
-        }
-
         public void BoardGameInitialized()
         {
             SetGameState(CraftMiniGameState.Initialized);
@@ -53,6 +48,16 @@ namespace Runtime
             countHitTarget = 0;
         }
 
+        public IEnumerator StartMiniGameRoutine(UnityAction<bool> callback)
+        {
+            RegisterButtonEvent();
+            startMoveSliderCoroutine = StartCoroutine(MoveCraftSliderRoutine());
+
+            yield return new WaitUntil(() => gameState == CraftMiniGameState.EndGame);
+            var _result = CheckValidResult();
+            callback?.Invoke(_result);
+        }
+
         void RandomPosTargetZone()
         {
             var _posX = Random.Range(minPosTarget, maxPosTarget);
@@ -61,6 +66,7 @@ namespace Runtime
 
         IEnumerator MoveCraftSliderRoutine()
         {
+            //Delay for now, change later
             yield return new WaitForSeconds(1);
             SetGameState(CraftMiniGameState.Playing);
             while (true)
@@ -108,14 +114,27 @@ namespace Runtime
         void OnClickCraft()
         {
             if (gameState != CraftMiniGameState.Playing) return;
-            
+
             SetGameState(CraftMiniGameState.Checking);
             StopMoveCraftSlider();
 
             if (CheckHitTargetZone())
                 countHitTarget++;
-            Debug.Log($"hit {countHitTarget}");
+
+            if (CheckValidResult())
+            {
+                EndGame();
+                return;
+            }
+
+            RandomPosTargetZone();
             startMoveSliderCoroutine = StartCoroutine(MoveCraftSliderRoutine());
+        }
+
+        void EndGame()
+        {
+            SetGameState(CraftMiniGameState.EndGame);
+            UnregisterButtonEvent();
         }
 
         bool CheckHitTargetZone()
@@ -133,6 +152,11 @@ namespace Runtime
             var _size = new Vector2(_corners[2].x - _corners[0].x, _corners[2].y - _corners[0].y);
             return new Rect(_corners[0], _size);
         }
+        bool CheckValidResult()
+        {
+            var _totalTouch = countHitTarget;
+            return _totalTouch >= 4;
+        }
     }
     public enum CraftMiniGameState
     {
@@ -140,5 +164,6 @@ namespace Runtime
         Initialized = 1,
         Playing = 2,
         Checking = 3,
+        EndGame = 4,
     }
 }

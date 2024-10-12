@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Runtime
 {
     public class KilnMiniGamePopup : Popup
@@ -6,6 +8,10 @@ namespace Runtime
         {
             base.Initialized();
             SetPopupType(PopupType.KilnMiniGame);
+        }
+
+        public override void SetupBeforeShow()
+        {            
         }
 
         public override void Show()

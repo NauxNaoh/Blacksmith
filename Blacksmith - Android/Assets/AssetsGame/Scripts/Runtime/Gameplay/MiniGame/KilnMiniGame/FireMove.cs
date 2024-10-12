@@ -11,11 +11,12 @@ namespace Runtime
         public bool FireStatus => fireStatus;
         public RectTransform GetRectTransform() => rectFire;
 
-
-        private void Awake()
+        public void Initialized()
         {
-            rectFire = GetComponent<RectTransform>();
-            imgFire = GetComponent<Image>();
+            if (rectFire == null)
+                rectFire = GetComponent<RectTransform>();
+            if (imgFire == null)
+                imgFire = GetComponent<Image>();
         }
 
         public void SetParrentFire(Transform transform)

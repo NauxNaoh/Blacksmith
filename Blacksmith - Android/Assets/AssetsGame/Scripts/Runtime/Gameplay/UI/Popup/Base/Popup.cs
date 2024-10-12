@@ -12,15 +12,20 @@ namespace Runtime
 
         private void SetPopupState(PopupState state) => popupState = state;
         protected void SetPopupType(PopupType type) => popupType = type;
-       
+
         public virtual void Initialized()
         {
             SetPopupState(PopupState.Initialized);
         }
 
+        public virtual void SetupBeforeShow()
+        {
+        }
+
         public virtual void Show()
         {
             SetPopupState(PopupState.Showing);
+            SetupBeforeShow();
             contentPopup.SetActive(true);
         }
 

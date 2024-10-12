@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Runtime
 {
     public class CraftMiniGamePopup : Popup
@@ -8,17 +10,18 @@ namespace Runtime
             SetPopupType(PopupType.CraftMiniGame);
         }
 
+        public override void SetupBeforeShow()
+        {
+        }
+
         public override void Show()
         {
             base.Show();
-            contentPopup.SetActive(true);
-
         }
 
         public override void Hide()
         {
             base.Hide();
-            contentPopup.SetActive(false);
         }
     }
 }

@@ -10,12 +10,10 @@ namespace Runtime
         {
             workArea = wArea;
         }
-
         public void StandOnWorkingRange(Character character)
         {
             workArea.WorkerMoveIn(character);
         }
-
         public void ExitOnWorkingRange()
         {
             workArea.WorkerMoveOut();

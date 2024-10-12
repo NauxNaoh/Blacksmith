@@ -46,9 +46,12 @@ namespace Runtime
     public enum AreaType
     {
         None = 0,
-        MissionBoardArea = 40,
+
+        MissionBoardArea = 49,
         IronBarrelArea = 50,
         KilnArea = 51,
+
         WoodBarrelArea = 100,
+        CraftTableArea =101,
     }
 }
