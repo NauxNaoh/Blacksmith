@@ -1,0 +1,5 @@
+id,blueprintType,nameBlueprint,price,nameSprite,materialType,amount
+0,CaiBua,Bua,120,hammer_01_64.png,IronTier1,1,
+,,,,,IronTier2,2,
+1,CaiThia,Thia,170,fork_01_64.png,WoodTier1,3,
+,,,,,WoodTier2,4,
