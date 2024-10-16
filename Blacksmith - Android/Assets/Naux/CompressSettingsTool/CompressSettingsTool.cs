@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Naux.CompressSettingsTool
 {
-    public class CompressSettings : EditorWindow
+    public class CompressSettingsTool : EditorWindow
     {
         private string folderPath = "Assets/";
         private string[] spritesFound = new string[0];
@@ -15,7 +15,7 @@ namespace Naux.CompressSettingsTool
         private PlatformHandler platformHandler;
 
 
-        [MenuItem("Tools/" + nameof(CompressSettings))] static void ShowWindow() => EditorWindow.GetWindow<CompressSettings>();
+        [MenuItem("Tools/" + nameof(CompressSettingsTool))] static void ShowWindow() => GetWindow<CompressSettingsTool>();
         private void OnEnable()
         {
             cusTexImporter = new CustomTextureImporter();
@@ -61,10 +61,10 @@ namespace Naux.CompressSettingsTool
         }
         private void DrawCompressSettingsPanel()
         {
-            cusPlatformType = (CustomPlatformType)GUILayout.Toolbar((int)cusPlatformType, Enum.GetNames(typeof(CustomPlatformType)));
+            cusPlatformType = (CustomPlatformType)GUILayout.Toolbar((int)cusPlatformType, Enum.GetNames(typeof(CustomPlatformType)), GUILayout.Height(25));
             EditorGUILayout.Space(2);
             platformHandler.DrawCompressSettings(cusPlatformType);
-            EditorGUILayout.Space(20);
+            EditorGUILayout.Space(25);
         }
         private void DrawButtonAutoSetting()
         {
@@ -114,11 +114,11 @@ namespace Naux.CompressSettingsTool
                 for (int i = 0, _count = _allPlatform.Count; i < _count; i++)
                 {
                     var _platform = _allPlatform[i].customPlatformType;
-
                     var _textureImporterPlatformSettings = _platform == CustomPlatformType.Default
-                        ? texImporter.GetDefaultPlatformTextureSettings() : texImporter.GetPlatformTextureSettings($"{_platform}");
-                    platformHandler.HandleMergeSettings(_platform, _textureImporterPlatformSettings, maxSize);
+                        ? texImporter.GetDefaultPlatformTextureSettings()
+                        : texImporter.GetPlatformTextureSettings($"{_platform}");
 
+                    platformHandler.HandleMergeSettings(_platform, _textureImporterPlatformSettings, maxSize);
                     texImporter.SetPlatformTextureSettings(_textureImporterPlatformSettings);
                 }
 
