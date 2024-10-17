@@ -15,15 +15,17 @@ MonoBehaviour:
   blueprintsDataSO:
   - id: 0
     blueprintName: Bluep 1
-    price: 120
+    sellingPrice: 50
+    learnCost: 150
     materialType: 1
-    blueprintSprite: {fileID: 21300000, guid: 0e5418e3a5a37da4bb5a8689d543617d, type: 3}
+    blueprintSprite: {fileID: 0}
     nameSprite: hammer_01_64
   - id: 1
     blueprintName: Bluep 2
-    price: 170
+    sellingPrice: 80
+    learnCost: 200
     materialType: 3
-    blueprintSprite: {fileID: 21300000, guid: 05737e6bb5261654aa36be31aed15727, type: 3}
+    blueprintSprite: {fileID: 0}
     nameSprite: fork_01_64
   fileCSVName: export
-  _folderSpritePath: AAA
+  pathFromResources: 
