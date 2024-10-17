@@ -2,148 +2,115 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Unity.Collections;
-using UnityEditor;
 using UnityEngine;
+using System.IO;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Runtime
 {
     [CreateAssetMenu(fileName = nameof(BlueprintDataSO), menuName = "SO/" + nameof(BlueprintDataSO))]
     public class BlueprintDataSO : ScriptableObject
     {
-        public string fileNameCSV = "export";
         public List<BlueprintData> blueprintsDataSO;
-        public List<SpriteMaterials> SpriteMaterialsSO;
+
 
 
 #if UNITY_EDITOR
+        public string fileCSVName = "export";
+        public string pathFromResources = "";
+
         [ContextMenu(nameof(ReadFromCSV))]
         public void ReadFromCSV()
         {
-            if (string.IsNullOrWhiteSpace(fileNameCSV))
+            if (string.IsNullOrWhiteSpace(fileCSVName))
             {
                 Debug.LogError("File name is NULL");
                 return;
             }
-            var _content = ImportExportCSV.ReadFromCSV(fileNameCSV);
-
+            var _content = ImportExportCSV.ReadFromCSV(fileCSVName);
+            blueprintsDataSO.Clear();
             blueprintsDataSO = new List<BlueprintData>();
-            BlueprintData _newBlueprint = null;
+            BlueprintData _newBlueprint;
             for (int i = 1, _count = _content.Length; i < _count; i++)
             {
                 var row = _content[i];
                 var columns = row.Split(',');
 
-
-                if (!string.IsNullOrWhiteSpace(columns[0]))
-                {
-                    var _id = 0;
-                    _newBlueprint = new BlueprintData();
-                    _newBlueprint.id = Convert.ToInt32(columns[_id]); _id++;
-                    _newBlueprint.blueprintType = (BlueprintType)Enum.Parse(typeof(BlueprintType), columns[_id]); _id++;
-                    _newBlueprint.nameBlueprint = Convert.ToString(columns[_id]); _id++;
-                    _newBlueprint.price = Convert.ToInt32(columns[_id]); _id++;
-                    _newBlueprint.nameSprite = Convert.ToString(columns[_id]); _id++;
-                    _newBlueprint.materials = new List<MaterialInfo>();
-
-                    if (!string.IsNullOrWhiteSpace(columns[_id]))
-                    {
-                        var _newMaterial = new MaterialInfo();
-                        _newMaterial.materialType = (MaterialType)Enum.Parse(typeof(MaterialType), columns[_id]); _id++;
-                        _newMaterial.amount = Convert.ToInt32(columns[_id]);
-
-                        _newBlueprint.materials.Add(_newMaterial);
-                    }
-
-                    blueprintsDataSO.Add(_newBlueprint);
-                }
-                else if (_newBlueprint != null)
-                {
-                    var _id = 5;
-                    if (!string.IsNullOrWhiteSpace(columns[_id]))
-                    {
-                        var _newMaterial = new MaterialInfo();
-                        _newMaterial.materialType = (MaterialType)Enum.Parse(typeof(MaterialType), columns[_id]); _id++;
-                        _newMaterial.amount = Convert.ToInt32(columns[_id]);
-
-                        _newBlueprint.materials.Add(_newMaterial);
-                    }
-                }
+                var _id = 0;
+                _newBlueprint = new BlueprintData();
+                _newBlueprint.id = Convert.ToInt32(columns[_id]); _id++;
+                _newBlueprint.blueprintName = Convert.ToString(columns[_id]); _id++;
+                _newBlueprint.price = Convert.ToInt32(columns[_id]); _id++;
+                _newBlueprint.materialType = (MaterialType)Enum.Parse(typeof(MaterialType), columns[_id]); _id++;
+                _newBlueprint.nameSprite = Convert.ToString(columns[_id]); ;
+                blueprintsDataSO.Add(_newBlueprint);
             }
 
             AssetDatabase.Refresh();
             Debug.Log($"Completed read from CSV");
         }
 
+
         [ContextMenu(nameof(WriteToCSV))]
         public void WriteToCSV()
         {
-            if (string.IsNullOrWhiteSpace(fileNameCSV))
+            if (string.IsNullOrWhiteSpace(fileCSVName))
             {
                 Debug.LogError("File name is NULL");
                 return;
             }
 
             var _content = WriteToStringBuilder();
-            ImportExportCSV.WriteToCSV(fileNameCSV, _content);
+            ImportExportCSV.WriteToCSV(fileCSVName, _content);
             Debug.Log($"Completed write to CSV");
         }
         string WriteToStringBuilder()
         {
             var _stringBuilder = new StringBuilder(
                 $"{nameof(BlueprintData.id)}," +
-                $"{nameof(BlueprintData.blueprintType)}," +
-                $"{nameof(BlueprintData.nameBlueprint)}," +
+                $"{nameof(BlueprintData.blueprintName)}," +
                 $"{nameof(BlueprintData.price)}," +
-                $"{nameof(BlueprintData.nameSprite)}," +
-                $"{nameof(MaterialInfo.materialType)}," +
-                $"{nameof(MaterialInfo.amount)}");
-
-            var _dataSO = blueprintsDataSO;
-            for (int i = 0, _countBlueprint = _dataSO.Count; i < _countBlueprint; i++)
+                $"{nameof(BlueprintData.materialType)}," +
+                $"{nameof(BlueprintData.nameSprite)}");
+            for (int i = 0; i < blueprintsDataSO.Count; i++)
             {
-                var _countMaterials = _dataSO[i].materials.Count;
-                if (_countMaterials > 0)
-                {
-                    var _firstMaterial = true;
-                    for (int j = 0; j < _countMaterials; j++)
-                    {
-                        if (_firstMaterial)
-                        {
-                            _stringBuilder.AppendLine()
-                            .Append($"{_dataSO[i].id}").Append(',')
-                            .Append($"{_dataSO[i].blueprintType}").Append(',')
-                            .Append($"{_dataSO[i].nameBlueprint}").Append(',')
-                            .Append($"{_dataSO[i].price}").Append(',')
-                            .Append($"{_dataSO[i].nameSprite}").Append(',')
-                            .Append($"{_dataSO[i].materials[j].materialType}").Append(',')
-                            .Append($"{_dataSO[i].materials[j].amount}").Append(',');
 
-                            _firstMaterial = false;
-                        }
-                        else
-                        {
-                            _stringBuilder.AppendLine()
-                            .Append(',', 5)
-                            .Append($"{_dataSO[i].materials[j].materialType}").Append(',')
-                            .Append($"{_dataSO[i].materials[j].amount}").Append(',');
-                        }
-
-                    }
-                }
-                else
-                {
-                    _stringBuilder.AppendLine()
-                    .Append($"{_dataSO[i].id}").Append(',')
-                    .Append($"{_dataSO[i].blueprintType}").Append(',')
-                    .Append($"{_dataSO[i].nameBlueprint}").Append(',')
-                    .Append($"{_dataSO[i].price}").Append(',')
-                    .Append($"{_dataSO[i].nameSprite}").Append(',');
-                }
-
+                _stringBuilder.AppendLine()
+                .Append($"{blueprintsDataSO[i].id}").Append(',')
+                .Append($"{blueprintsDataSO[i].blueprintName}").Append(',')
+                .Append($"{blueprintsDataSO[i].price}").Append(',')
+                .Append($"{blueprintsDataSO[i].materialType}").Append(',')
+                .Append($"{blueprintsDataSO[i].nameSprite}").Append(',');
             }
 
             return _stringBuilder.ToString();
+        }
+
+        [ContextMenu(nameof(AutoGetSprite))]
+        public void AutoGetSprite()
+        {
+            for (int i = 0, _count = blueprintsDataSO.Count; i < _count; i++)
+            {
+                var _nameSpr = blueprintsDataSO[i].nameSprite;
+                if (string.IsNullOrWhiteSpace(_nameSpr))
+                {
+                    Debug.LogError($"No data or wrong nameSprite at blueprint {blueprintsDataSO[i].id}");
+                    continue;
+                }
+
+                var _path = Path.Combine(pathFromResources, _nameSpr);
+                var _sprite = Resources.Load<Sprite>(_path);
+                if (_sprite != null)
+                    blueprintsDataSO[i].blueprintSprite = _sprite;
+                else
+                    Debug.LogError($"Sprite name: {_nameSpr} not found " +
+                        $"in {pathFromResources} " +
+                        $"for blueprint {blueprintsDataSO[i].id}");
+            }
+
+            AssetDatabase.Refresh();
         }
 #endif
     }
@@ -152,33 +119,13 @@ namespace Runtime
     public class BlueprintData
     {
         public int id;
-        public BlueprintType blueprintType;
-        public string nameBlueprint;
+        public string blueprintName;
         public int price;
+        public MaterialType materialType;
+        public Sprite blueprintSprite;
         public string nameSprite;
-        public List<MaterialInfo> materials;
     }
 
-    [Serializable]
-    public class MaterialInfo
-    {
-        public MaterialType materialType;
-        public int amount;
-    }
-
-    [Serializable]
-    public class SpriteMaterials
-    {
-        public MaterialType materialType;
-        public Sprite sprite;
-    }
-
-    public enum BlueprintType
-    {
-        None = 0,
-        CaiBua = 1,
-        CaiThia = 2,
-    }
     public enum MaterialType
     {
         None = 0,
@@ -188,4 +135,3 @@ namespace Runtime
         WoodTier2 = 4,
     }
 }
-
