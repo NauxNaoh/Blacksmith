@@ -7,7 +7,7 @@ namespace Runtime
     [CreateAssetMenu(fileName = nameof(BlueprintDataSO), menuName = "SO/" + nameof(BlueprintDataSO))]
     public partial class BlueprintDataSO : ScriptableObject
     {
-        public List<BlueprintData> blueprintsDataSO;
+        public List<BlueprintData> lstBlueprintSO;
     }
 
     [Serializable]

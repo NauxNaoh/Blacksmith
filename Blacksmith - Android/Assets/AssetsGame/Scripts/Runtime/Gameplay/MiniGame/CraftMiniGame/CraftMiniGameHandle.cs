@@ -1,13 +1,11 @@
-using Naux.Patterns;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Runtime
 {
-    public class CraftMiniGameHandle : Singleton<CraftMiniGameHandle>
+    public class CraftMiniGameHandle : MonoBehaviour
     {
         [SerializeField] private RectTransform rectCraftingBar;
         [SerializeField] private RectTransform rectTargetZone;

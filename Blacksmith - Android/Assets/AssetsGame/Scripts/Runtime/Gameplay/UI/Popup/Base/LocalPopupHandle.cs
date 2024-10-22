@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Runtime
 {
-    public class LocalPopupHandle : Singleton<LocalPopupHandle>
+    public class LocalPopupHandle : MonoBehaviour
     {
         [SerializeField] private GameObject fadePanel;
         [SerializeField] private List<Popup> lstLocalPopup = new List<Popup>();
@@ -15,11 +15,12 @@ namespace Runtime
         void SetLocalPopupState(LocalPopupState state) => localPopupState = state;
         void ShowPanel(bool status) => fadePanel.SetActive(status);
 
-        protected override void Awake()
+
+        protected  void Awake()
         {
-            base.Awake();
             Initialized();
         }
+
         void Initialized()
         {
             for (int i = 0, _count = lstLocalPopup.Count; i < _count; i++)
@@ -29,6 +30,7 @@ namespace Runtime
             showingPopup = PopupType.None;
             SetLocalPopupState(LocalPopupState.Initialized);
         }
+
         Popup FindPopupWithType(PopupType type)
         {
             return lstLocalPopup.Find(x => x.PopupType == type);

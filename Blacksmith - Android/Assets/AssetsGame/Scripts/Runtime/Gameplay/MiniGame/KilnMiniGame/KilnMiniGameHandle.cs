@@ -1,4 +1,3 @@
-using Naux.Patterns;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Runtime
 {
-    public class KilnMiniGameHandle : Singleton<KilnMiniGameHandle>
+    public class KilnMiniGameHandle : MonoBehaviour
     {
         [SerializeField] private Button btnLeft;
         [SerializeField] private Button btnRight;

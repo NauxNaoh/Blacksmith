@@ -22,11 +22,9 @@ namespace Runtime
         }
         IEnumerator RegisterInstanceMiniGame()
         {
-            yield return new WaitUntil(() => KilnMiniGameHandle.Instance != null);
-            kilnMiniGameHandle = KilnMiniGameHandle.Instance;
-
-            yield return new WaitUntil(() => CraftMiniGameHandle.Instance != null);
-            craftMiniGameHandle = CraftMiniGameHandle.Instance;
+            yield return new WaitUntil(() => InjectionHelper.Instance != null);
+            kilnMiniGameHandle = InjectionHelper.Instance.KilnMiniGameHandle;
+            craftMiniGameHandle = InjectionHelper.Instance.CraftMiniGameHandle;
         }
 
         private void Update()
@@ -109,18 +107,18 @@ namespace Runtime
         IEnumerator DoingKilnArea()
         {
             kilnMiniGameHandle.BoardGameInitialized();
-            LocalPopupHandle.Instance.ShowLocalPopup(PopupType.KilnMiniGame);
+            InjectionHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.KilnMiniGame);
             yield return StartCoroutine(kilnMiniGameHandle.StartMiniGameRoutine(CallBackTest));
 
-            LocalPopupHandle.Instance.HideLocalPopup();
+            InjectionHelper.Instance.LocalPopupHandle.HideLocalPopup();
         }
         IEnumerator DoingCraftTableArea()
         {
             craftMiniGameHandle.BoardGameInitialized();
-            LocalPopupHandle.Instance.ShowLocalPopup(PopupType.CraftMiniGame);
+            InjectionHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.CraftMiniGame);
             yield return StartCoroutine(craftMiniGameHandle.StartMiniGameRoutine(CallBackTest));
 
-            LocalPopupHandle.Instance.HideLocalPopup();
+            InjectionHelper.Instance.LocalPopupHandle.HideLocalPopup();
         }
 
         void CallBackTest(bool status)

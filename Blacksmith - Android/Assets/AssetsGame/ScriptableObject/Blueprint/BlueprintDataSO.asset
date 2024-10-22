@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50858ce8eb416b840920027cd324bcff, type: 3}
   m_Name: BlueprintDataSO
   m_EditorClassIdentifier: 
-  blueprintsDataSO:
+  lstBlueprintSO:
   - id: 0
     blueprintName: Bluep 1
-    sellingPrice: 50
-    learnCost: 150
+    sellingPrice: 0
+    learnCost: 0
     materialType: 1
     blueprintSprite: {fileID: 0}
     nameSprite: hammer_01_64

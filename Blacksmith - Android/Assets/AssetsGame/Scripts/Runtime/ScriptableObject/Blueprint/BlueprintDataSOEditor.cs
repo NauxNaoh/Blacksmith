@@ -12,6 +12,7 @@ namespace Runtime
 {
     public partial class BlueprintDataSO
     {
+        [Space,Space, Header("Show in Editor")]
         public string fileCSVName = "export";
         public string pathFromResources = "";
 
@@ -24,8 +25,8 @@ namespace Runtime
                 return;
             }
             var _content = ImportExportCSV.ReadFromCSV(fileCSVName);
-            blueprintsDataSO.Clear();
-            blueprintsDataSO = new List<BlueprintData>();
+            lstBlueprintSO.Clear();
+            lstBlueprintSO = new List<BlueprintData>();
             for (int i = 1, _count = _content.Length; i < _count; i++)
             {
                 var row = _content[i];
@@ -39,7 +40,7 @@ namespace Runtime
                 _newBlueprint.learnCost = Convert.ToInt32(columns[_id]); _id++;
                 _newBlueprint.materialType = (MaterialType)Enum.Parse(typeof(MaterialType), columns[_id]); _id++;
                 _newBlueprint.nameSprite = Convert.ToString(columns[_id]);
-                blueprintsDataSO.Add(_newBlueprint);
+                lstBlueprintSO.Add(_newBlueprint);
             }
 
             AssetDatabase.Refresh();
@@ -69,16 +70,16 @@ namespace Runtime
                 $"{nameof(BlueprintData.learnCost)}," +
             $"{nameof(BlueprintData.materialType)}," +
                 $"{nameof(BlueprintData.nameSprite)}");
-            for (int i = 0; i < blueprintsDataSO.Count; i++)
+            for (int i = 0; i < lstBlueprintSO.Count; i++)
             {
 
                 _stringBuilder.AppendLine()
-                .Append($"{blueprintsDataSO[i].id}").Append(',')
-                .Append($"{blueprintsDataSO[i].blueprintName}").Append(',')
-                .Append($"{blueprintsDataSO[i].sellingPrice}").Append(',')
-                .Append($"{blueprintsDataSO[i].learnCost}").Append(',')
-                .Append($"{blueprintsDataSO[i].materialType}").Append(',')
-                .Append($"{blueprintsDataSO[i].nameSprite}").Append(',');
+                .Append($"{lstBlueprintSO[i].id}").Append(',')
+                .Append($"{lstBlueprintSO[i].blueprintName}").Append(',')
+                .Append($"{lstBlueprintSO[i].sellingPrice}").Append(',')
+                .Append($"{lstBlueprintSO[i].learnCost}").Append(',')
+                .Append($"{lstBlueprintSO[i].materialType}").Append(',')
+                .Append($"{lstBlueprintSO[i].nameSprite}").Append(',');
             }
 
             return _stringBuilder.ToString();
@@ -87,23 +88,23 @@ namespace Runtime
         [ContextMenu(nameof(AutoGetSprite))]
         public void AutoGetSprite()
         {
-            for (int i = 0, _count = blueprintsDataSO.Count; i < _count; i++)
+            for (int i = 0, _count = lstBlueprintSO.Count; i < _count; i++)
             {
-                var _nameSpr = blueprintsDataSO[i].nameSprite;
+                var _nameSpr = lstBlueprintSO[i].nameSprite;
                 if (string.IsNullOrWhiteSpace(_nameSpr))
                 {
-                    Debug.LogError($"No data or wrong nameSprite at blueprint {blueprintsDataSO[i].id}");
+                    Debug.LogError($"No data or wrong nameSprite at blueprint {lstBlueprintSO[i].id}");
                     continue;
                 }
 
                 var _path = Path.Combine(pathFromResources, _nameSpr);
                 var _sprite = Resources.Load<Sprite>(_path);
                 if (_sprite != null)
-                    blueprintsDataSO[i].blueprintSprite = _sprite;
+                    lstBlueprintSO[i].blueprintSprite = _sprite;
                 else
                     Debug.LogError($"Sprite name: {_nameSpr} not found " +
                         $"in {pathFromResources} " +
-                        $"for blueprint {blueprintsDataSO[i].id}");
+                        $"for blueprint {lstBlueprintSO[i].id}");
             }
 
             AssetDatabase.Refresh();
