@@ -7,19 +7,23 @@ namespace Runtime
     [CreateAssetMenu(fileName = nameof(BlueprintDataSO), menuName = "SO/" + nameof(BlueprintDataSO))]
     public partial class BlueprintDataSO : ScriptableObject
     {
-        public List<BlueprintData> lstBlueprintSO;
+        public List<BlueprintSO> lstBlueprintSO;
+
+        public BlueprintSO FindBlueprintWithID(int id)
+        {
+           return lstBlueprintSO.Find(x => x.id == id);
+        }
     }
 
     [Serializable]
-    public class BlueprintData
+    public class BlueprintSO
     {
         public int id;
-        public string blueprintName;
+        public string name;
         public int sellingPrice;
         public int learnCost;
-        public MaterialType materialType;
-        public Sprite blueprintSprite;
-        public string nameSprite;
+        public int idMaterial;
+        public Sprite sprite;
     }
 
     public enum MaterialType

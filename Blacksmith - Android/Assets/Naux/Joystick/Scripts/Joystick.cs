@@ -12,15 +12,19 @@ namespace Naux.Joystick
         private Canvas canvas;
         private RectTransform baseRect;
         private Vector2 directInput = Vector2.zero;
-
         public Vector2 Direction => directInput;
+
+       
+        void SetActiveRectBackground(bool status) => rectBackground.gameObject.SetActive(status);
+        void SetRectHandleAnchorPos(Vector3 vector3) => rectHandle.anchoredPosition = vector3;
+
 
         void Start()
         {
-            Init();
+            Initialized();
         }
 
-        void Init()
+        void Initialized()
         {
             baseRect = GetComponent<RectTransform>();
             canvas = GetComponentInParent<Canvas>();
@@ -34,16 +38,16 @@ namespace Naux.Joystick
             rectHandle.anchorMin = _center;
             rectHandle.anchorMax = _center;
             rectHandle.pivot = _center;
-            rectHandle.anchoredPosition = Vector2.zero;
 
-            rectBackground.gameObject.SetActive(false);
+            SetRectHandleAnchorPos(Vector2.zero);
+            SetActiveRectBackground(false);
         }
 
 
         public void OnPointerDown(PointerEventData eventData)
         {
             rectBackground.anchoredPosition = ScreenPointToAnchoredPosition(eventData.position);
-            rectBackground.gameObject.SetActive(true);
+            SetActiveRectBackground(true);
 
             OnDrag(eventData);
         }
@@ -67,7 +71,7 @@ namespace Naux.Joystick
 
             directInput = (eventData.position - _bgPos) / (_radius * canvas.scaleFactor);
             HandleInput(directInput.magnitude, directInput.normalized, _radius, cam);
-            rectHandle.anchoredPosition = directInput * _radius;
+            SetRectHandleAnchorPos(directInput * _radius);
         }
 
         void HandleInput(float magnitude, Vector2 normalized, Vector2 radius, Camera cam)
@@ -83,9 +87,9 @@ namespace Naux.Joystick
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            rectBackground.gameObject.SetActive(false);
             directInput = Vector2.zero;
-            rectHandle.anchoredPosition = Vector2.zero;
+            SetActiveRectBackground(false);
+            SetRectHandleAnchorPos(Vector2.zero);
         }
     }
 }

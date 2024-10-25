@@ -1,3 +1,4 @@
+using Naux.DB;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,32 +9,39 @@ namespace Runtime
     {
         [SerializeField] private Blueprint prefabBlueprint;
         [SerializeField] private RectTransform rectContent;
-
         bool isFirstLoad = true;
 
-        private IEnumerator Start()
+        private void Start()
         {
-            yield return new WaitUntil(() => InjectionHelper.Instance != null);
             Initialized();
         }
 
         void Initialized()
         {
-            if (isFirstLoad)
+            if (!isFirstLoad) return;
+
+            LoadBlueprintFromDB();
+            isFirstLoad = false;
+        }
+
+        void LoadBlueprintFromDB()
+        {
+            var _lstDB = DBController.Instance.BLUEPRINT_DB.lstBlueprintInfo;
+            var _dataSO = InjectionGlobalHelper.Instance.BlueprintDataSO;
+
+            for (int i = 0, _countDB = _lstDB.Count; i < _countDB; i++)
             {
-                var _dataSO = InjectionHelper.Instance.BlueprintDataSO.lstBlueprintSO;
-                for (int i = 0, _count = _dataSO.Count; i < _count; i++)
-                {
-                    var _blueprint = Instantiate(prefabBlueprint, rectContent);
-                    _blueprint.SetName(_dataSO[i].blueprintName);
-                    _blueprint.SetSellingPrice(_dataSO[i].sellingPrice);
-                    _blueprint.SetLearnCost(_dataSO[i].learnCost);
-                    _blueprint.SetImage(_dataSO[i].blueprintSprite);
-                }
+                var _foundBlueprintSO = _dataSO.FindBlueprintWithID(_lstDB[i].id);
+                if (_foundBlueprintSO == null) continue;
 
-                isFirstLoad = false;
+                var _blueprint = Instantiate(prefabBlueprint, rectContent);
+                _blueprint.SetID(_lstDB[i].id);
+                _blueprint.SetLockState(_lstDB[i].isLock);
+                _blueprint.SetName(_foundBlueprintSO.name);
+                _blueprint.SetSellingPrice(_foundBlueprintSO.sellingPrice);
+                _blueprint.SetLearnCost(_foundBlueprintSO.learnCost);
+                _blueprint.SetImage(_foundBlueprintSO.sprite);
             }
-
         }
 
     }

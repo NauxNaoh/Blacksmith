@@ -9143,7 +9143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1393651560}
-  - component: {fileID: 1393651559}
+  - component: {fileID: 1393651561}
   m_Layer: 0
   m_Name: InjectionHelper
   m_TagString: Untagged
@@ -9151,23 +9151,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1393651559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1393651558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d288ab07a5db007418673a4f63650a25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 0
-  localPopupHandle: {fileID: 1835432073}
-  kilnMiniGameHandle: {fileID: 1078554867}
-  craftMiniGameHandle: {fileID: 298630135}
-  blueprintDataSO: {fileID: 11400000, guid: d4203c4adacab224f9cf9e3b1c52984a, type: 2}
 --- !u!4 &1393651560
 Transform:
   m_ObjectHideFlags: 0
@@ -9183,6 +9166,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1393651561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393651558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71a5a96badecf142961fe68545f2556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 0
+  localPopupHandle: {fileID: 1835432073}
+  kilnMiniGameHandle: {fileID: 1078554867}
+  craftMiniGameHandle: {fileID: 298630135}
 --- !u!1 &1395031034
 GameObject:
   m_ObjectHideFlags: 0
@@ -14323,8 +14322,8 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 2081914542}
-  - {fileID: 1393651560}
   - {fileID: 467638634}
+  - {fileID: 1393651560}
   - {fileID: 1800927443}
   - {fileID: 1981401512}
   - {fileID: 662319973}

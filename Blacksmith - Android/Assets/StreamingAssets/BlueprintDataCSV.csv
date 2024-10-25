@@ -1,0 +1,5 @@
+ID,Name Blueprint,Selling Price,Learn Cost,ID Material,Sprite Name
+0,Hammer,70,0,1,hammer_01
+1,Fork,80,0,11,fork_01
+2,Knife,150,100,1,knife_01
+3,Chopsticks,160,200,11,chopsticks_01

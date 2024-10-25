@@ -14,18 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lstBlueprintSO:
   - id: 0
-    blueprintName: Bluep 1
-    sellingPrice: 0
+    name: Hammer
+    sellingPrice: 70
     learnCost: 0
-    materialType: 1
-    blueprintSprite: {fileID: 0}
-    nameSprite: hammer_01_64
+    idMaterial: 1
+    sprite: {fileID: 21300000, guid: e12d5b5841139c340a4f94989ddea52a, type: 3}
   - id: 1
-    blueprintName: Bluep 2
+    name: Fork
     sellingPrice: 80
+    learnCost: 0
+    idMaterial: 11
+    sprite: {fileID: 21300000, guid: d3db12441ee663d4889d8b1bc1ce3248, type: 3}
+  - id: 2
+    name: Knife
+    sellingPrice: 150
+    learnCost: 100
+    idMaterial: 1
+    sprite: {fileID: 21300000, guid: bad9eaf378edafc4bb78eaf55c1f788d, type: 3}
+  - id: 3
+    name: Chopsticks
+    sellingPrice: 160
     learnCost: 200
-    materialType: 3
-    blueprintSprite: {fileID: 0}
-    nameSprite: fork_01_64
-  fileCSVName: export
+    idMaterial: 11
+    sprite: {fileID: 21300000, guid: f481250a57014214c930eaf5b2f1b939, type: 3}
+  fileCSVName: BlueprintDataCSV
   pathFromResources: 
