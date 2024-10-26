@@ -28,7 +28,7 @@ namespace Runtime
         void UnregisterButtonEvent() => btnCraft.onClick.RemoveListener(OnClickCraft);
 
 
-        public void BoardGameInitialized()
+        public void Initialized()
         {
             SetGameState(CraftMiniGameState.Initialized);
 

@@ -47,7 +47,9 @@ namespace Runtime
     {
         None = 0,
 
-        MissionBoardArea = 49,
+        BlueprintsArea = 10,
+        MissionBoardArea = 11,
+
         IronBarrelArea = 50,
         KilnArea = 51,
 

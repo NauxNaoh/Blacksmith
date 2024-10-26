@@ -37,7 +37,7 @@ namespace Runtime
         }
 
 
-        public void BoardGameInitialized()
+        public void Initialized()
         {
             SetGameState(KilnMiniGameState.Initialized);
             SetupBoard();

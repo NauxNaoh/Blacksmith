@@ -11,12 +11,7 @@ namespace Runtime
         [SerializeField] private RectTransform rectContent;
         bool isFirstLoad = true;
 
-        private void Start()
-        {
-            Initialized();
-        }
-
-        void Initialized()
+        public void Initialized()
         {
             if (!isFirstLoad) return;
 
@@ -41,6 +36,7 @@ namespace Runtime
                 _blueprint.SetSellingPrice(_foundBlueprintSO.sellingPrice);
                 _blueprint.SetLearnCost(_foundBlueprintSO.learnCost);
                 _blueprint.SetImage(_foundBlueprintSO.sprite);
+                _blueprint.UpdateSelfUI();
             }
         }
 

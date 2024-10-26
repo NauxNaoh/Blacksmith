@@ -71,42 +71,45 @@ namespace Runtime
         public override void WorkingForNowHAHA(AreaType areaType)
         {
             //Play action carry resource
-            SwitchAction(areaType);
+            SwitchAction(areaType); //here
             Debug.Log($"character doing {areaType}!");
 
         }
 
-
         void SwitchAction(AreaType areaType)
         {
             //use for now, change to stratery pattern?
-            switch (areaType)
-            {
-                case AreaType.None:
-                    break;
-                case AreaType.MissionBoardArea:
-                    break;
+            //switch (areaType)
+            //{
+            //    case AreaType.None:
+            //        break;
+            //    case AreaType.MissionBoardArea:
+            //        break;
 
-                case AreaType.IronBarrelArea:
-                    actionHandle.ChangeCharacterAction(CharacterAction.CarryIron);
-                    break;
-                case AreaType.WoodBarrelArea:
-                    actionHandle.ChangeCharacterAction(CharacterAction.CarryWood);
-                    break;
+            //    case AreaType.IronBarrelArea:
+            //        actionHandle.ChangeCharacterAction(CharacterAction.CarryIron);
+            //        break;
+            //    case AreaType.WoodBarrelArea:
+            //        actionHandle.ChangeCharacterAction(CharacterAction.CarryWood);
+            //        break;
 
-                case AreaType.KilnArea:
-                    StartCoroutine(DoingKilnArea());
-                    break;
-                case AreaType.CraftTableArea:
-                    StartCoroutine(DoingCraftTableArea());
-                    break;
-                default:
-                    break;
-            }
+            //    case AreaType.KilnArea:
+            //        //action
+            //        StartCoroutine(DoingKilnArea());
+            //        break;
+            //    case AreaType.CraftTableArea:
+            //        //action
+            //        StartCoroutine(DoingCraftTableArea());
+            //        break;
+            //    case AreaType.BlueprintsArea:
+            //        DoingBlueprintsArea();
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
         IEnumerator DoingKilnArea()
         {
-            kilnMiniGameHandle.BoardGameInitialized();
             InjectionLocalHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.KilnMiniGame);
             yield return StartCoroutine(kilnMiniGameHandle.StartMiniGameRoutine(CallBackTest));
 
@@ -114,12 +117,20 @@ namespace Runtime
         }
         IEnumerator DoingCraftTableArea()
         {
-            craftMiniGameHandle.BoardGameInitialized();
             InjectionLocalHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.CraftMiniGame);
             yield return StartCoroutine(craftMiniGameHandle.StartMiniGameRoutine(CallBackTest));
 
             InjectionLocalHelper.Instance.LocalPopupHandle.HideLocalPopup();
         }
+
+        void DoingBlueprintsArea()
+        {
+            
+
+            InjectionLocalHelper.Instance.LocalPopupHandle.HideLocalPopup();
+        }
+
+
 
         void CallBackTest(bool status)
         {

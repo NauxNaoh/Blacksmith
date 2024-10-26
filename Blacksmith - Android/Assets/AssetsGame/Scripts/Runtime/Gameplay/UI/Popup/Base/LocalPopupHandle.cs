@@ -1,4 +1,3 @@
-using Naux.Patterns;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,13 +15,14 @@ namespace Runtime
         void ShowPanel(bool status) => fadePanel.SetActive(status);
 
 
-        protected  void Awake()
+        private void Awake()
         {
             Initialized();
         }
 
         void Initialized()
         {
+            ShowPanel(false);
             for (int i = 0, _count = lstLocalPopup.Count; i < _count; i++)
             {
                 lstLocalPopup[i].Initialized();
@@ -37,7 +37,7 @@ namespace Runtime
         }
 
         //handle async or wait queue popup later
-        public void ShowLocalPopup(PopupType popupType)   
+        public void ShowLocalPopup(PopupType popupType)
         {
             if (localPopupState == LocalPopupState.Showing) return;
 
@@ -68,6 +68,17 @@ namespace Runtime
             showingPopup = PopupType.None;
             _popup.Hide();
             ShowPanel(false);
+        }
+
+        [ContextMenu(nameof(AutoAddPopupInChildGameObject))]
+        public void AutoAddPopupInChildGameObject()
+        {
+            lstLocalPopup = new List<Popup>();
+            var _popups = GetComponentsInChildren<Popup>();
+            for (int i = 0; i < _popups.Length; i++)
+            {
+                lstLocalPopup.Add(_popups[i]);
+            }
         }
     }
     public enum LocalPopupState
