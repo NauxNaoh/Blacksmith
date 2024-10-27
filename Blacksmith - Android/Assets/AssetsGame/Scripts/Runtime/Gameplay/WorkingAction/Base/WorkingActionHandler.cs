@@ -7,7 +7,6 @@ namespace Runtime
     {
         [SerializeField] private List<WorkingAction> lstWorkingAction;
 
-
         public void Initialized()
         {
             for (int i = 0, _count = lstWorkingAction.Count; i < _count; i++)
@@ -31,6 +30,18 @@ namespace Runtime
             }
 
             _work.DoingWork();
+        }
+
+
+        [ContextMenu(nameof(AutoAddActionWorking))]
+        public void AutoAddActionWorking()
+        {
+            lstWorkingAction = new List<WorkingAction>();
+            var _workings = GetComponentsInChildren<WorkingAction>();
+            for (int i = 0; i < _workings.Length; i++)
+            {
+                lstWorkingAction.Add(_workings[i]);
+            }
         }
     }
 }

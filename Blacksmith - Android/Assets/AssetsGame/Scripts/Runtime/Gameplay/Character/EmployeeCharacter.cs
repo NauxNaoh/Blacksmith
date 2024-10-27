@@ -20,7 +20,7 @@ namespace Runtime
         }
         public override void Move(Vector3 direction)
         {
-            if (actionHandle.CharacterAction != CharacterAction.Moving) return;
+            if (actionAnimHandle.CharacterAction != CharacterAction.Moving) return;
             //characterController.Move(direction * Time.deltaTime * speed);
         }
 

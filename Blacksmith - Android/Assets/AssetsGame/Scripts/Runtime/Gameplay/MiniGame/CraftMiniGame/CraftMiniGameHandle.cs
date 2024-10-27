@@ -46,14 +46,13 @@ namespace Runtime
             countHitTarget = 0;
         }
 
-        public IEnumerator StartMiniGameRoutine(UnityAction<bool> callback)
+        public IEnumerator StartMiniGameRoutine()
         {
             RegisterButtonEvent();
             startMoveSliderCoroutine = StartCoroutine(MoveCraftSliderRoutine());
 
             yield return new WaitUntil(() => gameState == CraftMiniGameState.EndGame);
-            var _result = CheckValidResult();
-            callback?.Invoke(_result);
+            //var _result = CheckValidResult();
         }
 
         void RandomPosTargetZone()

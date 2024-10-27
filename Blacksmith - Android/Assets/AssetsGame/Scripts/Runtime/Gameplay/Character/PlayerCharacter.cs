@@ -8,24 +8,18 @@ namespace Runtime
     {
         [Space]
         [SerializeField] private Joystick joystick;
+        [SerializeField] private WorkingActionHandler workingActionHandler;
 
         private CharacterController characterController;
         private Vector3 destination = Vector3.zero;
 
-        private KilnMiniGameHandle kilnMiniGameHandle;
-        private CraftMiniGameHandle craftMiniGameHandle;
 
         private void Start()
         {
             Initialized();
-            StartCoroutine(RegisterInstanceMiniGame());
+            workingActionHandler.Initialized();
         }
-        IEnumerator RegisterInstanceMiniGame()
-        {
-            yield return new WaitUntil(() => InjectionLocalHelper.Instance != null);
-            kilnMiniGameHandle = InjectionLocalHelper.Instance.KilnMiniGameHandle;
-            craftMiniGameHandle = InjectionLocalHelper.Instance.CraftMiniGameHandle;
-        }
+
 
         private void Update()
         {
@@ -70,71 +64,75 @@ namespace Runtime
 
         public override void WorkingForNowHAHA(AreaType areaType)
         {
-            //Play action carry resource
-            SwitchAction(areaType); //here
-            Debug.Log($"character doing {areaType}!");
+            var _workingType = ConvertAreaTypeToWorkingType(areaType);
 
+            workingActionHandler.DoingWorkingType(_workingType);
         }
+
+        WorkingType ConvertAreaTypeToWorkingType(AreaType areaType)
+        {
+            switch (areaType)
+            {
+                case AreaType.None:
+                default:
+                    return WorkingType.None;
+                case AreaType.BlueprintsArea:
+                    return WorkingType.BlueprintBoardWorking;
+                case AreaType.MissionBoardArea:
+                    return WorkingType.MissionBoardWorking;
+                case AreaType.IronBarrelArea:
+                    return WorkingType.IronBarrelWorking;
+                case AreaType.KilnArea:
+                    return WorkingType.KilnWorking;
+                case AreaType.WoodBarrelArea:
+                    return WorkingType.WoodBarrelWorking;
+                case AreaType.CraftTableArea:
+                    return WorkingType.CraftTableWorking;
+            }
+        }
+
+
 
         void SwitchAction(AreaType areaType)
         {
-            //use for now, change to stratery pattern?
-            //switch (areaType)
-            //{
-            //    case AreaType.None:
-            //        break;
-            //    case AreaType.MissionBoardArea:
-            //        break;
+            switch (areaType)
+            {
+                case AreaType.None:
+                    break;
+                case AreaType.MissionBoardArea:
+                    break;
 
-            //    case AreaType.IronBarrelArea:
-            //        actionHandle.ChangeCharacterAction(CharacterAction.CarryIron);
-            //        break;
-            //    case AreaType.WoodBarrelArea:
-            //        actionHandle.ChangeCharacterAction(CharacterAction.CarryWood);
-            //        break;
+                case AreaType.IronBarrelArea:
+                    actionAnimHandle.ChangeCharacterAction(CharacterAction.CarryIron);
+                    break;
+                case AreaType.WoodBarrelArea:
+                    actionAnimHandle.ChangeCharacterAction(CharacterAction.CarryWood);
+                    break;
 
-            //    case AreaType.KilnArea:
-            //        //action
-            //        StartCoroutine(DoingKilnArea());
-            //        break;
-            //    case AreaType.CraftTableArea:
-            //        //action
-            //        StartCoroutine(DoingCraftTableArea());
-            //        break;
-            //    case AreaType.BlueprintsArea:
-            //        DoingBlueprintsArea();
-            //        break;
-            //    default:
-            //        break;
-            //}
+                case AreaType.KilnArea:
+                    //action
+                    break;
+                case AreaType.CraftTableArea:
+                    //action
+                    break;
+                case AreaType.BlueprintsArea:
+                    //action ?
+                    break;
+                default:
+                    break;
+
+            }
         }
-        IEnumerator DoingKilnArea()
-        {
-            InjectionLocalHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.KilnMiniGame);
-            yield return StartCoroutine(kilnMiniGameHandle.StartMiniGameRoutine(CallBackTest));
+        
+        
 
-            InjectionLocalHelper.Instance.LocalPopupHandle.HideLocalPopup();
-        }
-        IEnumerator DoingCraftTableArea()
-        {
-            InjectionLocalHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.CraftMiniGame);
-            yield return StartCoroutine(craftMiniGameHandle.StartMiniGameRoutine(CallBackTest));
-
-            InjectionLocalHelper.Instance.LocalPopupHandle.HideLocalPopup();
-        }
-
-        void DoingBlueprintsArea()
-        {
-            
-
-            InjectionLocalHelper.Instance.LocalPopupHandle.HideLocalPopup();
-        }
+        //    InjectionLocalHelper.Instance.LocalPopupHandle.HideLocalPopup();
+       
 
 
+        //write context menu auto ref for character
 
-        void CallBackTest(bool status)
-        {
-            Debug.LogError($"status mini game = {status}");
-        }
+
+        
     }
 }

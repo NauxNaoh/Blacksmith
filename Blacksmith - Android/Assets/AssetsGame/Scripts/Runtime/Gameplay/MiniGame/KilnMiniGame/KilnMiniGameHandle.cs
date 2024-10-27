@@ -114,7 +114,7 @@ namespace Runtime
             }
         }
 
-        public IEnumerator StartMiniGameRoutine(UnityAction<bool> callback)
+        public IEnumerator StartMiniGameRoutine()
         {
             SetGameState(KilnMiniGameState.Playing);
             RegisterButtonEvent();
@@ -125,8 +125,7 @@ namespace Runtime
             EndGame();
 
             yield return new WaitUntil(() => gameState == KilnMiniGameState.EndGame);
-            var _result = CheckValidResult();
-            callback?.Invoke(_result);
+            //var _result = CheckValidResult();
         }
 
         void EndGame()

@@ -4,19 +4,16 @@ using UnityEngine;
 
 namespace Runtime
 {
-    public class KilnWorking : WorkingAction
+    public class WoodBarrelWorking : WorkingAction
     {
-
         public override void Initialized()
         {
-            SetWorkingType(WorkingType.KilnWorking);
+            SetWorkingType(WorkingType.WoodBarrelWorking);
         }
 
         public override void DoingWork()
         {
-            InjectionLocalHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.KilnMiniGame);
+
         }
-
-
     }
 }

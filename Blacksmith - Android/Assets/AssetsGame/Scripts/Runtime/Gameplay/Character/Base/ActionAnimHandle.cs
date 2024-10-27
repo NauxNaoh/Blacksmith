@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Runtime
 {
-    public class ActionHandle : MonoBehaviour
+    public class ActionAnimHandle : MonoBehaviour
     {
         private CharacterAction characterAction;
 

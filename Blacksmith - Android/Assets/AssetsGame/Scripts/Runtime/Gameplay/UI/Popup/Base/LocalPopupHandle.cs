@@ -36,7 +36,7 @@ namespace Runtime
             return lstLocalPopup.Find(x => x.PopupType == type);
         }
 
-        //handle async or wait queue popup later
+        
         public void ShowLocalPopup(PopupType popupType)
         {
             if (localPopupState == LocalPopupState.Showing) return;
@@ -70,8 +70,8 @@ namespace Runtime
             ShowPanel(false);
         }
 
-        [ContextMenu(nameof(AutoAddPopupInChildGameObject))]
-        public void AutoAddPopupInChildGameObject()
+        [ContextMenu(nameof(AutoAddPopup))]
+        public void AutoAddPopup()
         {
             lstLocalPopup = new List<Popup>();
             var _popups = GetComponentsInChildren<Popup>();

@@ -6,7 +6,7 @@ namespace Runtime
 {
     public abstract class Character : MonoBehaviour
     {
-        [SerializeField] protected ActionHandle actionHandle;
+        [SerializeField] protected ActionAnimHandle actionAnimHandle;
         [SerializeField] protected CharacterType characterType;
         
         public float speed = 5; //change?

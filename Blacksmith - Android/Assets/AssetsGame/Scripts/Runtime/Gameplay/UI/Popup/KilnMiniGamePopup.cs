@@ -25,6 +25,8 @@ namespace Runtime
         public override void Show()
         {
             base.Show();
+
+            kilnMiniGameHandle.StartCoroutine(kilnMiniGameHandle.StartMiniGameRoutine());
         }
 
         public override void Hide()
