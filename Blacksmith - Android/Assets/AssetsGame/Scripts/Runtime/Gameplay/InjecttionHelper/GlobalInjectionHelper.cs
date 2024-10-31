@@ -5,9 +5,8 @@ using UnityEngine;
 
 namespace Runtime
 {
-    public class InjectionGlobalHelper : Singleton<InjectionGlobalHelper>
+    public class GlobalInjectionHelper : Singleton<GlobalInjectionHelper>
     {
-
         [Space]
         [SerializeField] private BlueprintDataSO blueprintDataSO;
         public BlueprintDataSO BlueprintDataSO => blueprintDataSO;

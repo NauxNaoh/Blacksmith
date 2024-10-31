@@ -13,7 +13,7 @@ namespace Runtime
 
         public override void DoingWork()
         {
-            InjectionLocalHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.CraftMiniGame);
+            LocalInjectionHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.CraftMiniGame);
         }
     }
 }

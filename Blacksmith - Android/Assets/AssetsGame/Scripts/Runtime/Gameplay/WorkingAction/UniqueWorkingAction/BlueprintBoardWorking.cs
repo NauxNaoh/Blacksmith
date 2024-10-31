@@ -12,7 +12,7 @@ namespace Runtime
         }
         public override void DoingWork()
         {
-            InjectionLocalHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.BlueprintBoard);
+            LocalInjectionHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.BlueprintBoard);
         }
 
     }

@@ -20,7 +20,7 @@ namespace Runtime
             return lstWorkingAction.Find(x => x.WorkingType == type);
         }
 
-        public void DoingWorkingType(WorkingType type)
+        public void DoWorkingType(WorkingType type)
         {
             var _work = FindWorkingAction(type);
             if(_work == null)

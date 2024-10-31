@@ -19,14 +19,14 @@ namespace Runtime
         public override void SetupBeforeShow()
         {
             base.SetupBeforeShow();
-            kilnMiniGameHandle.Initialized();
+            kilnMiniGameHandle?.Initialized();
         }
 
         public override void Show()
         {
             base.Show();
 
-            kilnMiniGameHandle.StartCoroutine(kilnMiniGameHandle.StartMiniGameRoutine());
+            kilnMiniGameHandle?.StartCoroutine(kilnMiniGameHandle.StartMiniGameRoutine());
         }
 
         public override void Hide()

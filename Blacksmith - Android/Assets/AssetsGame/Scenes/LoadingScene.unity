@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 1684595453}
   - component: {fileID: 1684595454}
   m_Layer: 0
-  m_Name: InjectionGlobalHelper
+  m_Name: GlobalInjectionHelper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -231,10 +231,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1684595452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 472af70d85a792a43a614c9c62055690, type: 3}
+  m_Script: {fileID: 11500000, guid: d3ca31a1d4b5ead4c9c70c25c86487e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 1
+  dontDestroyOnLoad: 0
   blueprintDataSO: {fileID: 11400000, guid: d4203c4adacab224f9cf9e3b1c52984a, type: 2}
 --- !u!1 &1715432588
 GameObject:

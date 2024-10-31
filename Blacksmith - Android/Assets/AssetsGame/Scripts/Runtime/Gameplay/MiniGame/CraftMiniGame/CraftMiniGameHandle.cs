@@ -16,7 +16,7 @@ namespace Runtime
         private float minPosTarget;
         private float maxPosTarget;
         private Vector2 rangePosSlider;
-        private float timeSlider = 1.4f;
+        private float timeSlider = 1.2f;
         private float elapsedTimeSlider;
         private int countHitTarget;
 
@@ -53,6 +53,12 @@ namespace Runtime
 
             yield return new WaitUntil(() => gameState == CraftMiniGameState.EndGame);
             //var _result = CheckValidResult();
+            QuitMiniGame();
+        }
+
+        void QuitMiniGame()
+        {
+            LocalInjectionHelper.Instance.LocalPopupHandle.HideLocalPopup();
         }
 
         void RandomPosTargetZone()
@@ -63,8 +69,7 @@ namespace Runtime
 
         IEnumerator MoveCraftSliderRoutine()
         {
-            //Delay for now, change later
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f);
             SetGameState(CraftMiniGameState.Playing);
             while (true)
             {

@@ -56,7 +56,7 @@ namespace Runtime
                 itemAmount -= 1;
                 UpdateResourceUI();
                 Debug.Log($"Get item {gameObject.name} success");
-                character.WorkingForNowHAHA(areaType);
+                character.WorkingOnWorkArea(areaType);
             }
             else
             {

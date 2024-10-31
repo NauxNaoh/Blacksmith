@@ -19,12 +19,13 @@ namespace Runtime
         public override void SetupBeforeShow()
         {
             base.SetupBeforeShow();
-            craftMiniGameHandle.Initialized();
+            craftMiniGameHandle?.Initialized();
         }
 
         public override void Show()
         {
             base.Show();
+            craftMiniGameHandle?.StartCoroutine(craftMiniGameHandle.StartMiniGameRoutine());
         }
 
         public override void Hide()

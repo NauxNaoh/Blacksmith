@@ -2,6 +2,7 @@ using Naux.DB;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Runtime
 {
@@ -9,6 +10,7 @@ namespace Runtime
     {
         [SerializeField] private Blueprint prefabBlueprint;
         [SerializeField] private RectTransform rectContent;
+        [SerializeField] private Button btnQuit;
         bool isFirstLoad = true;
 
         public void Initialized()
@@ -17,19 +19,20 @@ namespace Runtime
 
             LoadBlueprintFromDB();
             isFirstLoad = false;
+            btnQuit.onClick.AddListener(OnClickButtonQuit);
         }
 
         void LoadBlueprintFromDB()
         {
             var _lstDB = DBController.Instance.BLUEPRINT_DB.lstBlueprintInfo;
-            var _dataSO = InjectionGlobalHelper.Instance.BlueprintDataSO;
+            var _dataSO = GlobalInjectionHelper.Instance.BlueprintDataSO;
 
             for (int i = 0, _countDB = _lstDB.Count; i < _countDB; i++)
             {
                 var _foundBlueprintSO = _dataSO.FindBlueprintWithID(_lstDB[i].id);
                 if (_foundBlueprintSO == null) continue;
 
-                var _blueprint = Instantiate(prefabBlueprint, rectContent);
+                var _blueprint = Instantiate<Blueprint>(prefabBlueprint, rectContent);
                 _blueprint.SetID(_lstDB[i].id);
                 _blueprint.SetLockState(_lstDB[i].isLock);
                 _blueprint.SetName(_foundBlueprintSO.name);
@@ -40,5 +43,10 @@ namespace Runtime
             }
         }
 
+
+        void OnClickButtonQuit()
+        {
+            LocalInjectionHelper.Instance.LocalPopupHandle.HideLocalPopup();
+        }
     }
 }

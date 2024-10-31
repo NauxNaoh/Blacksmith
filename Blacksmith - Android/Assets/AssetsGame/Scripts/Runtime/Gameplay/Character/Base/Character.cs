@@ -17,7 +17,7 @@ namespace Runtime
 
         public virtual void Move(Vector3 direction) { }
 
-        public virtual void WorkingForNowHAHA(AreaType areaType) { }
+        public virtual void WorkingOnWorkArea(AreaType areaType) { }
     }
 
     public enum CharacterType

@@ -62,11 +62,11 @@ namespace Runtime
             characterController.Move(direction * Time.fixedDeltaTime * speed);
         }
 
-        public override void WorkingForNowHAHA(AreaType areaType)
+        public override void WorkingOnWorkArea(AreaType areaType)
         {
             var _workingType = ConvertAreaTypeToWorkingType(areaType);
 
-            workingActionHandler.DoingWorkingType(_workingType);
+            workingActionHandler.DoWorkingType(_workingType);
         }
 
         WorkingType ConvertAreaTypeToWorkingType(AreaType areaType)

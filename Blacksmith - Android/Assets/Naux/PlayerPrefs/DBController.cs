@@ -9,7 +9,7 @@ namespace Naux.DB
 {
     public class DBController : Singleton<DBController>
     {
-        [SerializeField] private InjectionGlobalHelper globalHelper;
+        [SerializeField] private GlobalInjectionHelper globalHelper;
 
         #region Default
         protected override void Awake()

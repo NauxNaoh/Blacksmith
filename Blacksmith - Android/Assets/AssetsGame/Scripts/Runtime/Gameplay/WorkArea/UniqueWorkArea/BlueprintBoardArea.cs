@@ -46,7 +46,7 @@ namespace Runtime
             if (timer >= waitingTime)
             {
                 acceptedWorker = true;
-                character.WorkingForNowHAHA(areaType);
+                character.WorkingOnWorkArea(areaType);
             }
             else
             {

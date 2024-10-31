@@ -45,8 +45,7 @@ namespace Runtime
             if (timer >= waitingTime)
             {
                 acceptedWorker = true;
-                Debug.Log($"show {gameObject.name} mini game");
-                character.WorkingForNowHAHA(areaType);
+                character.WorkingOnWorkArea(areaType);
             }
             else
             {

@@ -125,7 +125,14 @@ namespace Runtime
             EndGame();
 
             yield return new WaitUntil(() => gameState == KilnMiniGameState.EndGame);
+
+            QuitMiniGame();
             //var _result = CheckValidResult();
+        }
+
+        void QuitMiniGame()
+        {
+            LocalInjectionHelper.Instance.LocalPopupHandle.HideLocalPopup();
         }
 
         void EndGame()

@@ -19,7 +19,7 @@ namespace Runtime
         public override void SetupBeforeShow()
         {
             base.SetupBeforeShow();
-            blueprintBoadHandle.Initialized();
+            blueprintBoadHandle?.Initialized();
         }
 
         public override void Show()

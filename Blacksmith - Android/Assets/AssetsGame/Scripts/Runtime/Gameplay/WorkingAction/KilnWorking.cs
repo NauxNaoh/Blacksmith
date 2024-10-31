@@ -6,7 +6,6 @@ namespace Runtime
 {
     public class KilnWorking : WorkingAction
     {
-
         public override void Initialized()
         {
             SetWorkingType(WorkingType.KilnWorking);
@@ -14,7 +13,7 @@ namespace Runtime
 
         public override void DoingWork()
         {
-            InjectionLocalHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.KilnMiniGame);
+            LocalInjectionHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.KilnMiniGame);
         }
 
 
