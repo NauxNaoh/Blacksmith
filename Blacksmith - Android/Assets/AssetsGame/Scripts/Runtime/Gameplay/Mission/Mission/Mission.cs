@@ -4,11 +4,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Mission : MonoBehaviour
+namespace Runtime
 {
-    [SerializeField] private TextMeshProUGUI tmpName;
-    [SerializeField] private Image imgMission;
-    [SerializeField] private TextMeshProUGUI tmpRequest;
+    public class Mission : MonoBehaviour
+    {
+        [SerializeField] private TextMeshProUGUI tmpName; //need?
+        [SerializeField] private Image imgMission;
+        [SerializeField] private TextMeshProUGUI tmpRequest;
 
 
+    }
 }

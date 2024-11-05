@@ -93,46 +93,40 @@ namespace Runtime
 
 
 
-        void SwitchAction(AreaType areaType)
-        {
-            switch (areaType)
-            {
-                case AreaType.None:
-                    break;
-                case AreaType.MissionBoardArea:
-                    break;
+        //void SwitchAction(AreaType areaType)
+        //{
+        //    switch (areaType)
+        //    {
+        //        case AreaType.None:
+        //            break;
+        //        case AreaType.MissionBoardArea:
+        //            break;
 
-                case AreaType.IronBarrelArea:
-                    actionAnimHandle.ChangeCharacterAction(CharacterAction.CarryIron);
-                    break;
-                case AreaType.WoodBarrelArea:
-                    actionAnimHandle.ChangeCharacterAction(CharacterAction.CarryWood);
-                    break;
+        //        case AreaType.IronBarrelArea:
+        //            actionAnimHandle.ChangeCharacterAction(CharacterAction.CarryIron);
+        //            break;
+        //        case AreaType.WoodBarrelArea:
+        //            actionAnimHandle.ChangeCharacterAction(CharacterAction.CarryWood);
+        //            break;
 
-                case AreaType.KilnArea:
-                    //action
-                    break;
-                case AreaType.CraftTableArea:
-                    //action
-                    break;
-                case AreaType.BlueprintsArea:
-                    //action ?
-                    break;
-                default:
-                    break;
+        //        case AreaType.KilnArea:
+        //            //action
+        //            break;
+        //        case AreaType.CraftTableArea:
+        //            //action
+        //            break;
+        //        case AreaType.BlueprintsArea:
+        //            //action ?
+        //            break;
+        //        default:
+        //            break;
 
-            }
-        }
-        
-        
+        //    }
+        //}
 
         //    InjectionLocalHelper.Instance.LocalPopupHandle.HideLocalPopup();
-       
-
 
         //write context menu auto ref for character
-
-
         
     }
 }

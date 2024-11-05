@@ -1,35 +1,37 @@
-using Runtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissionBoardPopup : Popup
+namespace Runtime
 {
-    private MissionBoardHandle missionBoardHandle;
-
-    public override void Initialized()
+    public class MissionBoardPopup : Popup
     {
-        base.Initialized();
-        SetPopupType(PopupType.BlueprintBoard);
+        private MissionBoardHandle missionBoardHandle;
 
-        missionBoardHandle = GetComponentInChildren<MissionBoardHandle>();
-        if (missionBoardHandle == null)
-            Debug.LogError($"Can't find component '{nameof(MissionBoardHandle)}' in children");
-    }
+        public override void Initialized()
+        {
+            base.Initialized();
+            SetPopupType(PopupType.MissionBoard);
 
-    public override void SetupBeforeShow()
-    {
-        base.SetupBeforeShow();
-        //missionBoardHandle?.Initialized();
-    }
+            missionBoardHandle = GetComponentInChildren<MissionBoardHandle>();
+            if (missionBoardHandle == null)
+                Debug.LogError($"Can't find component '{nameof(MissionBoardHandle)}' in children");
+        }
 
-    public override void Show()
-    {
-        base.Show();
-    }
+        public override void SetupBeforeShow()
+        {
+            base.SetupBeforeShow();
+            missionBoardHandle?.Initialized();
+        }
 
-    public override void Hide()
-    {
-        base.Hide();
+        public override void Show()
+        {
+            base.Show();
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+        }
     }
 }

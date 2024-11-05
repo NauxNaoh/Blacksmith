@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Runtime
 {
     public class MissionBoardWorking : WorkingAction
@@ -13,7 +9,7 @@ namespace Runtime
 
         public override void DoingWork()
         {
-            //InjectionLocalHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.);
+            LocalInjectionHelper.Instance.LocalPopupHandle.ShowLocalPopup(PopupType.MissionBoard);
         }
     }
 }

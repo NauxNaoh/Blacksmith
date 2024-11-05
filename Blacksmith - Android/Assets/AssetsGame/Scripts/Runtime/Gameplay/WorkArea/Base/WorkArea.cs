@@ -33,6 +33,7 @@ namespace Runtime
         public abstract void WorkerMoveIn(Character character);
         public abstract void WorkerMoveOut();
 
+        //note: Merge code after add more area
 
 #if UNITY_EDITOR
         public virtual void AutoSetRef()

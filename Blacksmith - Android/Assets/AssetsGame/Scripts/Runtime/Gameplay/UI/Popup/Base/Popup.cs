@@ -71,8 +71,9 @@ namespace Runtime
     public enum PopupType
     {
         None = 0,
-        KilnMiniGame = 1,
-        CraftMiniGame = 2,
-        BlueprintBoard = 3,
+        BlueprintBoard = 1,
+        MissionBoard = 2,
+        KilnMiniGame = 3,
+        CraftMiniGame = 4,
     }
 }

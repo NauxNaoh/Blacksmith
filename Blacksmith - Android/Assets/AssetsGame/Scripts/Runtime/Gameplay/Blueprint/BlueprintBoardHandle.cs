@@ -24,16 +24,16 @@ namespace Runtime
 
         void LoadBlueprintFromDB()
         {
-            var _lstDB = DBController.Instance.BLUEPRINT_DB.lstBlueprintInfo;
+            var _lstDB = DBController.Instance.BLUEPRINT_DB.lstBlueprint;
             var _dataSO = GlobalInjectionHelper.Instance.BlueprintDataSO;
 
             for (int i = 0, _countDB = _lstDB.Count; i < _countDB; i++)
             {
-                var _foundBlueprintSO = _dataSO.FindBlueprintWithID(_lstDB[i].id);
+                var _foundBlueprintSO = _dataSO.FindBlueprintWithID(_lstDB[i].idBlueprint);
                 if (_foundBlueprintSO == null) continue;
 
                 var _blueprint = Instantiate<Blueprint>(prefabBlueprint, rectContent);
-                _blueprint.SetID(_lstDB[i].id);
+                _blueprint.SetID(_lstDB[i].idBlueprint);
                 _blueprint.SetLockState(_lstDB[i].isLock);
                 _blueprint.SetName(_foundBlueprintSO.name);
                 _blueprint.SetSellingPrice(_foundBlueprintSO.sellingPrice);

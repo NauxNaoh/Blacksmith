@@ -8353,57 +8353,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4bf13a0b19c0da4bb7cc07c020003a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1336093924
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1336093926}
-  - component: {fileID: 1336093925}
-  m_Layer: 0
-  m_Name: LocalPoolCustom
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1336093925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1336093924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bdd4be666d2914429efbdaf1f8751ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lstPrefabPool:
-  - poolName: 1
-    gameObject: {fileID: 6672413717916422358, guid: 7c3ee40c312e09d4081d90d8e25adf44, type: 3}
-    preload: 3
-  - poolName: 2
-    gameObject: {fileID: 587111413213893645, guid: 128bbdd9cfaefaa4ea3bad4129db3f98, type: 3}
-    preload: 3
---- !u!4 &1336093926
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1336093924}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1345122178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12809,4 +12758,3 @@ SceneRoots:
   - {fileID: 731295106}
   - {fileID: 406817901}
   - {fileID: 1884414714}
-  - {fileID: 1336093926}

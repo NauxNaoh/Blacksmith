@@ -6,13 +6,13 @@ namespace Runtime
     [Serializable]
     public class BlueprintDB
     {
-        public List<BlueprintModel> lstBlueprintInfo;
+        public List<BlueprintModel> lstBlueprint;
     }
-
+      
     [Serializable]
     public class BlueprintModel
     {
-        public int id;
+        public int idBlueprint;
         public bool isLock;
     }
 }
