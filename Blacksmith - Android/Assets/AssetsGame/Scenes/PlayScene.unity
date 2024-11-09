@@ -4284,7 +4284,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &662319972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10787,9 +10787,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadePanel: {fileID: 1449813855}
   lstLocalPopup:
+  - {fileID: 355244129}
+  - {fileID: 776887226}
   - {fileID: 1030555437}
   - {fileID: 885380755}
-  - {fileID: 355244129}
 --- !u!1 &1857165953
 GameObject:
   m_ObjectHideFlags: 0
