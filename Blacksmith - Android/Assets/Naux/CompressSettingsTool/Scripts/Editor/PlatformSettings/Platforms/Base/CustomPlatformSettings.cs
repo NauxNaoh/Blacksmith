@@ -9,7 +9,6 @@ namespace Naux.CompressSettingsTool
     {
         public CustomPlatformType customPlatformType;
         public bool overridden;
-        //public int maxTextureSize;
         public TextureResizeAlgorithm resizeAlgorithm;
         public TextureImporterFormat format;
         public bool crunchedCompression;
@@ -17,7 +16,7 @@ namespace Naux.CompressSettingsTool
         public bool allowsAlphaSplitting;
         public AndroidETC2FallbackOverride androidETC2FallbackOverride;
 
-        
+
         public string messageOverridden;
         public Dictionary<TextureImporterFormat, string> formatDictionary;
 

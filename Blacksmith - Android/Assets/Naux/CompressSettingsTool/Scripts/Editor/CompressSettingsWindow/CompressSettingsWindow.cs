@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Naux.CompressSettingsTool
 {
-    public class CompressSettingsTool : EditorWindow
+    public class CompressSettingsWindow : EditorWindow
     {
         private string folderPath = "Assets/";
         private string[] spritesFound = new string[0];
@@ -15,7 +15,7 @@ namespace Naux.CompressSettingsTool
         private PlatformHandler platformHandler;
 
 
-        [MenuItem("Tools/" + nameof(CompressSettingsTool))] static void ShowWindow() => GetWindow<CompressSettingsTool>();
+        [MenuItem("Tools/" + nameof(CompressSettingsWindow))] static void ShowWindow() => GetWindow<CompressSettingsWindow>();
         private void OnEnable()
         {
             cusTexImporter = new CustomTextureImporter();
@@ -108,9 +108,8 @@ namespace Naux.CompressSettingsTool
                 texImporter.mipmapEnabled = cusTexImporter.mipmapEnabled;
                 texImporter.wrapMode = cusTexImporter.wrapMode;
                 texImporter.filterMode = cusTexImporter.filterMode;
-                //texImporter.SetTextureSettings();
 
-                var _allPlatform = platformHandler.LstCusPlatSettings;
+                var _allPlatform = platformHandler.LstCustomPlatform;
                 for (int i = 0, _count = _allPlatform.Count; i < _count; i++)
                 {
                     var _platform = _allPlatform[i].customPlatformType;

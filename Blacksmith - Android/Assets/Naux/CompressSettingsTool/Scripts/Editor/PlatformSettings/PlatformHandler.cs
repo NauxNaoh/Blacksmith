@@ -6,12 +6,12 @@ namespace Naux.CompressSettingsTool
 {
     public class PlatformHandler
     {
-        private List<CustomPlatformSettings> lstCustomPlatformSettings;
-        public List<CustomPlatformSettings> LstCusPlatSettings => lstCustomPlatformSettings;
+        private List<CustomPlatformSettings> lstCustomPlatform;
+        public List<CustomPlatformSettings> LstCustomPlatform => lstCustomPlatform;
 
         public void Initialized()
         {
-            lstCustomPlatformSettings = new List<CustomPlatformSettings>()
+            lstCustomPlatform = new List<CustomPlatformSettings>()
             {
                 new DefaultSettings(),
                 new WindowSettings(),
@@ -20,15 +20,15 @@ namespace Naux.CompressSettingsTool
                 new WebGLSettings()
             };
 
-            for (int i = 0, _count = lstCustomPlatformSettings.Count; i < _count; i++)
+            for (int i = 0, _count = lstCustomPlatform.Count; i < _count; i++)
             {
-                lstCustomPlatformSettings[i].Initialized();
+                lstCustomPlatform[i].Initialized();
             }
         }
 
         private CustomPlatformSettings FindPlatform(CustomPlatformType type)
         {
-            return lstCustomPlatformSettings.Find(x => x.customPlatformType == type);
+            return lstCustomPlatform.Find(x => x.customPlatformType == type);
         }
 
         public void DrawCompressSettings(CustomPlatformType type)

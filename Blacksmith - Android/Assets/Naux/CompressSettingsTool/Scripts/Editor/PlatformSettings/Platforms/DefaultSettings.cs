@@ -10,7 +10,7 @@ namespace Naux.CompressSettingsTool
             customPlatformType = CustomPlatformType.Default;
             resizeAlgorithm = TextureResizeAlgorithm.Mitchell;
             format = TextureImporterFormat.Automatic;
-            //missing 1 compression
+            //compression quality
             crunchedCompression = false;
             compressionQuality = (int)TextureCompressionQuality.Normal;
 
